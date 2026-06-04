@@ -1,7 +1,6 @@
 import { Collection } from 'discord.js';
 import fs from 'fs';
 import path from 'path';
-import { pathToFileURL } from 'url';
 import { Command } from '../types';
 
 const commands = new Collection<string, Command>();
@@ -18,8 +17,7 @@ export async function loadCommands(): Promise<Collection<string, Command>> {
     for (const file of files) {
       try {
         const filePath = path.join(categoryPath, file);
-        const fileUrl = pathToFileURL(filePath).href;
-        const mod = await import(fileUrl);
+        const mod = require(filePath);
         const command: Command = mod.default;
         if (command?.data?.name) {
           commands.set(command.data.name, command);
