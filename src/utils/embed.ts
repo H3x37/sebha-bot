@@ -41,15 +41,14 @@ export function buildEmbed(section: Section, options: EmbedOptions) {
     })));
   }
 
+  if (config.avatarURL) {
+    embed.setThumbnail(config.avatarURL);
+  }
+
   if (options.image) embed.setImage(options.image);
   if (options.thumbnail) embed.setThumbnail(options.thumbnail);
 
-  const footerPrefix = config.monoIcon ? `${config.monoIcon} ` : '';
-  const footerText = options.footer
-    ? `${options.footer} • ${config.footer}`
-    : `${footerPrefix}${config.footer}`;
-
-  embed.setFooter({ text: footerText });
+  embed.setFooter({ text: config.botName, iconURL: config.avatarURL || undefined });
 
   return embed;
 }
