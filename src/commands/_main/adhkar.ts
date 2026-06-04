@@ -127,23 +127,18 @@ export default {
 
       function buildPage(i: number) {
         const item = data[i];
-        const avatar = interaction.client.user.displayAvatarURL();
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
-        const fields: { name: string; value: string; inline?: boolean }[] = [
-          { name: 'وصف', value: item.blessing, inline: false },
-          { name: 'عدد التكرار', value: item.count, inline: true },
-        ];
-        if (item.reference) {
-          fields.push({ name: 'المرجع', value: item.reference, inline: true });
-        }
+        const botAvatar = interaction.client.user.displayAvatarURL();
         return new EmbedBuilder()
-          .setTitle(title)
+          .setAuthor({ name: title, iconURL: botAvatar })
           .setDescription(item.text)
-          .setThumbnail(avatar)
+          .setThumbnail(botAvatar)
           .setColor(0x10a3a4)
-          .addFields(fields)
-          .setFooter({ text: `الصفحة • ${arabicNumeral(i + 1)}/${data.length} • ${timeStr}`, iconURL: avatar })
+          .addFields(
+            { name: 'وصف', value: item.blessing, inline: false },
+            { name: 'عدد التكرار', value: item.count, inline: true },
+            ...(item.reference ? [{ name: 'المرجع', value: item.reference, inline: true }] : []),
+          )
+          .setFooter({ text: 'سبحة', iconURL: botAvatar })
           .setTimestamp(new Date());
       }
 
@@ -231,23 +226,18 @@ export default {
 
       function buildDhikrPage(i: number) {
         const item = data[i];
-        const avatar = interaction.client.user.displayAvatarURL();
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
-        const fields: { name: string; value: string; inline?: boolean }[] = [
-          { name: 'وصف', value: item.blessing, inline: false },
-          { name: 'عدد التكرار', value: item.count, inline: true },
-        ];
-        if (item.reference) {
-          fields.push({ name: 'المرجع', value: item.reference, inline: true });
-        }
+        const botAvatar = interaction.client.user.displayAvatarURL();
         return new EmbedBuilder()
-          .setTitle(title)
+          .setAuthor({ name: title, iconURL: botAvatar })
           .setDescription(item.text)
-          .setThumbnail(avatar)
+          .setThumbnail(botAvatar)
           .setColor(0x10a3a4)
-          .addFields(fields)
-          .setFooter({ text: `الصفحة • ${arabicNumeral(i + 1)}/${data.length} • ${timeStr}`, iconURL: avatar })
+          .addFields(
+            { name: 'وصف', value: item.blessing, inline: false },
+            { name: 'عدد التكرار', value: item.count, inline: true },
+            ...(item.reference ? [{ name: 'المرجع', value: item.reference, inline: true }] : []),
+          )
+          .setFooter({ text: 'سبحة', iconURL: botAvatar })
           .setTimestamp(new Date());
       }
 
@@ -296,24 +286,19 @@ export default {
     if (sub === 'دعاء-اليوم') {
       const index = new Date().getDate() % duaToday.length;
       const dua = duaToday[index];
-      const avatar = interaction.client.user.displayAvatarURL();
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
-      const fields: { name: string; value: string; inline?: boolean }[] = [
-        { name: 'وصف', value: dua.blessing, inline: false },
-        { name: 'عدد التكرار', value: dua.count, inline: true },
-      ];
-      if (dua.reference) {
-        fields.push({ name: 'المرجع', value: dua.reference, inline: true });
-      }
+      const botAvatar = interaction.client.user.displayAvatarURL();
 
       const embed = new EmbedBuilder()
-        .setTitle('دعاء اليوم')
+        .setAuthor({ name: 'دعاء اليوم', iconURL: botAvatar })
         .setDescription(dua.text)
-        .setThumbnail(avatar)
+        .setThumbnail(botAvatar)
         .setColor(0x10a3a4)
-        .addFields(fields)
-        .setFooter({ text: `دعاء اليوم • ${timeStr}`, iconURL: avatar })
+        .addFields(
+          { name: 'وصف', value: dua.blessing, inline: false },
+          { name: 'عدد التكرار', value: dua.count, inline: true },
+          ...(dua.reference ? [{ name: 'المرجع', value: dua.reference, inline: true }] : []),
+        )
+        .setFooter({ text: 'سبحة', iconURL: botAvatar })
         .setTimestamp(new Date());
 
       await interaction.reply({ embeds: [embed] });
@@ -331,18 +316,18 @@ export default {
       }
 
       function buildMsbahaEmbed() {
-        const avatar = interaction.client.user.displayAvatarURL();
+        const botAvatar = interaction.client.user.displayAvatarURL();
         return new EmbedBuilder()
-          .setTitle('۞ ذكر الله')
+          .setAuthor({ name: 'المسبحة الرقمية', iconURL: botAvatar })
           .setDescription(tasbih[currentTasbih])
-          .setThumbnail(avatar)
+          .setThumbnail(botAvatar)
           .setColor(0x10a3a4)
           .addFields(
             { name: 'التسبيحة', value: tasbih[currentTasbih], inline: true },
             { name: 'العدد', value: `${arabicNumeral(count)}/${arabicNumeral(totalGoal)}`, inline: true },
             { name: 'التقدم', value: `${Math.round((count / totalGoal) * 100)}%`, inline: true },
           )
-          .setFooter({ text: 'المسبحة الرقمية', iconURL: avatar })
+          .setFooter({ text: 'سبحة', iconURL: botAvatar })
           .setTimestamp(new Date());
       }
 
