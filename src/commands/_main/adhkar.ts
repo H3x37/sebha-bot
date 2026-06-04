@@ -1,13 +1,13 @@
 import {
   SlashCommandBuilder, ChatInputCommandInteraction,
   ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType,
-  PermissionFlagsBits
+  EmbedBuilder,
 } from 'discord.js';
 import { Command } from '../../types';
 import { buildEmbed, errorEmbed } from '../../utils/embed';
 import prisma from '../../utils/prisma';
 import { adhkar, morningAdhkar, eveningAdhkar, sleepAdhkar, prayerAdhkar, eatingAdhkar, travelAdhkar, homeAdhkar, weddingAdhkar, duaToday, seasonalAdhkar } from '../../data/adhkar';
-import { arabicNumeral, bold, blockquote, sep } from '../../utils/format';
+import { arabicNumeral, bold, blockquote } from '../../utils/format';
 
 export default {
   data: new SlashCommandBuilder()
@@ -121,35 +121,85 @@ export default {
     }
 
     if (group === 'عرض') {
-      if (sub === 'صباح') {
-        const description = morningAdhkar.map((a, i) =>
-          `${arabicNumeral(i + 1)}. ${bold(a.text)}\n${arabicNumeral(parseInt(a.count) || 0)} مرات ${sep()} ${a.blessing}`
-        ).join('\n\n');
+      const data = sub === 'صباح' ? morningAdhkar : eveningAdhkar;
+      const title = sub === 'صباح' ? 'أذكار الصباح' : 'أذكار المساء';
+      let index = 0;
 
-        const embed = buildEmbed('adhkar', {
-          title: 'أذكار الصباح',
-          description,
-          footer: 'سِبْحَة • فاذكروا الله يذكركم',
-        });
-
-        await interaction.reply({ embeds: [embed] });
-        return;
+      function buildPage(i: number) {
+        const item = data[i];
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+        const fields: { name: string; value: string; inline?: boolean }[] = [
+          { name: 'وصف', value: item.blessing, inline: false },
+          { name: 'عدد التكرار', value: item.count, inline: true },
+        ];
+        if (item.reference) {
+          fields.push({ name: 'المرجع', value: item.reference, inline: true });
+        }
+        return new EmbedBuilder()
+          .setTitle(title)
+          .setDescription(item.text)
+          .setColor(0x10a3a4)
+          .addFields(fields)
+          .setFooter({ text: `الصفحة • ${arabicNumeral(i + 1)}/${data.length} • ${timeStr}` })
+          .setTimestamp(new Date());
       }
 
-      if (sub === 'مساء') {
-        const description = eveningAdhkar.map((a, i) =>
-          `${arabicNumeral(i + 1)}. ${bold(a.text)}\n${arabicNumeral(parseInt(a.count) || 0)} مرات ${sep()} ${a.blessing}`
-        ).join('\n\n');
+      const navRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder().setCustomId('first').setLabel('⏮️').setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId('prev').setLabel('◀️').setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId('next').setLabel('▶️').setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId('last').setLabel('⏭️').setStyle(ButtonStyle.Secondary),
+      );
 
-        const embed = buildEmbed('adhkar', {
-          title: 'أذكار المساء',
-          description,
-          footer: 'سِبْحَة • فاذكروا الله يذكركم',
-        });
+      const ctrlRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder().setCustomId('change').setLabel('تغيير الصفحة 🔄').setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId('save').setLabel('حفظ الصفحة 🔖').setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder().setCustomId('count').setLabel('انقر لبدء العد 📈').setStyle(ButtonStyle.Secondary),
+      );
 
-        await interaction.reply({ embeds: [embed] });
-        return;
-      }
+      const reply = await interaction.reply({
+        embeds: [buildPage(index)],
+        components: [navRow, ctrlRow],
+        fetchReply: true,
+      });
+
+      const filter = (i: any) => i.user.id === interaction.user.id;
+      const collector = reply.createMessageComponentCollector({
+        filter,
+        componentType: ComponentType.Button,
+        time: 300000,
+      });
+
+      collector.on('collect', async i => {
+        switch (i.customId) {
+          case 'first': index = 0; break;
+          case 'prev': index = (index - 1 + data.length) % data.length; break;
+          case 'next': index = (index + 1) % data.length; break;
+          case 'last': index = data.length - 1; break;
+          case 'change': index = Math.floor(Math.random() * data.length); break;
+          case 'save':
+            await i.reply({ content: `📖 تم حفظ الذكر: ${data[index].text}`, flags: 64 });
+            return;
+          case 'count':
+            await i.reply({
+              content: `🔢 **عدد التكرار:** ${data[index].count}`,
+              flags: 64,
+            });
+            return;
+        }
+        await i.update({ embeds: [buildPage(index)] });
+      });
+
+      collector.on('end', async () => {
+        const disabledNav = ActionRowBuilder.from<ButtonBuilder>(navRow);
+        disabledNav.components.forEach(c => c.setDisabled(true));
+        const disabledCtrl = ActionRowBuilder.from<ButtonBuilder>(ctrlRow);
+        disabledCtrl.components.forEach(c => c.setDisabled(true));
+        await interaction.editReply({ components: [disabledNav, disabledCtrl] }).catch(() => {});
+      });
+
+      return;
     }
 
     if (sub === 'ذكر') {
@@ -176,36 +226,45 @@ export default {
       }
 
       let currentIndex = Math.floor(Math.random() * data.length);
-      const randomItem = data[currentIndex];
 
-      const embed = buildEmbed('adhkar', {
-        author: 'سلسلة الأذكار',
-        title,
-        description: blockquote(randomItem.text),
-        fields: [
-          { name: bold('التكرار'), value: randomItem.count, inline: true },
-          { name: bold('الفضل'), value: randomItem.blessing, inline: true },
-        ],
-      });
+      function buildDhikrPage(i: number) {
+        const item = data[i];
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+        const fields: { name: string; value: string; inline?: boolean }[] = [
+          { name: 'وصف', value: item.blessing, inline: false },
+          { name: 'عدد التكرار', value: item.count, inline: true },
+        ];
+        if (item.reference) {
+          fields.push({ name: 'المرجع', value: item.reference, inline: true });
+        }
+        return new EmbedBuilder()
+          .setTitle(title)
+          .setDescription(item.text)
+          .setColor(0x10a3a4)
+          .addFields(fields)
+          .setFooter({ text: `الصفحة • ${arabicNumeral(i + 1)}/${data.length} • ${timeStr}` })
+          .setTimestamp(new Date());
+      }
 
-      const previous = new ButtonBuilder()
+      const prevBtn = new ButtonBuilder()
         .setCustomId('dhikr_prev')
-        .setEmoji('⬅️')
+        .setLabel('◀️')
         .setStyle(ButtonStyle.Secondary);
 
-      const random = new ButtonBuilder()
+      const randomBtn = new ButtonBuilder()
         .setCustomId('dhikr_random')
-        .setEmoji('🔄')
-        .setStyle(ButtonStyle.Primary);
-
-      const next = new ButtonBuilder()
-        .setCustomId('dhikr_next')
-        .setEmoji('➡️')
+        .setLabel('تغيير الصفحة 🔄')
         .setStyle(ButtonStyle.Secondary);
 
-      const row = new ActionRowBuilder<ButtonBuilder>().addComponents(previous, random, next);
+      const nextBtn = new ButtonBuilder()
+        .setCustomId('dhikr_next')
+        .setLabel('▶️')
+        .setStyle(ButtonStyle.Secondary);
 
-      const reply = await interaction.reply({ embeds: [embed], components: [row], fetchReply: true });
+      const row = new ActionRowBuilder<ButtonBuilder>().addComponents(prevBtn, randomBtn, nextBtn);
+
+      const reply = await interaction.reply({ embeds: [buildDhikrPage(currentIndex)], components: [row], fetchReply: true });
 
       const filter = (i: any) => i.user.id === interaction.user.id;
       const collector = reply.createMessageComponentCollector({ filter, componentType: ComponentType.Button, time: 120000 });
@@ -218,20 +277,7 @@ export default {
         } else {
           currentIndex = Math.floor(Math.random() * data.length);
         }
-
-        const item = data[currentIndex];
-        const newEmbed = buildEmbed('adhkar', {
-          author: 'سلسلة الأذكار',
-          title,
-          description: blockquote(item.text),
-          fields: [
-            { name: bold('التكرار'), value: item.count, inline: true },
-            { name: bold('الفضل'), value: item.blessing, inline: true },
-            { name: bold('العدد'), value: `${currentIndex + 1} / ${data.length}`, inline: true },
-          ],
-        });
-
-        await i.update({ embeds: [newEmbed] });
+        await i.update({ embeds: [buildDhikrPage(currentIndex)] });
       });
 
       collector.on('end', async () => {
@@ -246,15 +292,23 @@ export default {
     if (sub === 'دعاء-اليوم') {
       const index = new Date().getDate() % duaToday.length;
       const dua = duaToday[index];
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+      const fields: { name: string; value: string; inline?: boolean }[] = [
+        { name: 'وصف', value: dua.blessing, inline: false },
+        { name: 'عدد التكرار', value: dua.count, inline: true },
+      ];
+      if (dua.reference) {
+        fields.push({ name: 'المرجع', value: dua.reference, inline: true });
+      }
 
-      const embed = buildEmbed('adhkar', {
-        author: 'سلسلة الأدعية',
-        title: 'دعاء اليوم',
-        description: blockquote(dua.text),
-        fields: [
-          { name: bold('الفضل'), value: dua.blessing, inline: false },
-        ],
-      });
+      const embed = new EmbedBuilder()
+        .setTitle('دعاء اليوم')
+        .setDescription(dua.text)
+        .setColor(0x10a3a4)
+        .addFields(fields)
+        .setFooter({ text: `دعاء اليوم • ${timeStr}` })
+        .setTimestamp(new Date());
 
       await interaction.reply({ embeds: [embed] });
       return;
