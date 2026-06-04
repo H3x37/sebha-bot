@@ -12,6 +12,7 @@ export const config = {
   botName: 'سِبْحَة',
   version: '2.0.0',
   monoIcon: '',
+  avatarURL: '',
 };
 
 export const colors = {
