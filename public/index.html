@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html class="dark" dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>سِبْحَة | بوت إسلامي متكامل لديسكورد</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0&display=swap" rel="stylesheet">
+<script>
+tailwind.config={
+  darkMode:"class",
+  theme:{
+    extend:{
+      colors:{
+        primary:"#D4AF37",
+        "on-primary":"#3c2f00",
+        "background":"#0d1322",
+        "surface":"#0d1322",
+        "surface-dim":"#0d1322",
+        "surface-bright":"#33394a",
+        "surface-container":"#191f2f",
+        "surface-container-low":"#151b2b",
+        "surface-container-lowest":"#080e1d",
+        "surface-container-high":"#242a3a",
+        "on-background":"#dde2f8",
+        "on-surface":"#dde2f8",
+        "on-surface-variant":"#d0c5af",
+        secondary:"#76d7c8",
+        tertiary:"#eccd5d",
+        outline:"#99907c",
+        "outline-variant":"#4d4635",
+      },
+      fontFamily:{
+        arabic:["Amiri","serif"],
+        body:["Inter","sans-serif"],
+      },
+      borderRadius:{
+        DEFAULT:"0.25rem",
+        lg:"16px",
+        xl:"24px",
+      },
+      animation:{
+        float:"float 6s ease-in-out infinite",
+        shimmer:"shimmer 2s infinite",
+      },
+      keyframes:{
+        float:{
+          "0%,100%":{transform:"translateY(0px)"},
+          "50%":{transform:"translateY(-20px)"},
+        },
+        shimmer:{
+          "0%":{backgroundPosition:"-200% 0"},
+          "100%":{backgroundPosition:"200% 0"},
+        },
+      },
+    },
+  },
+};
+</script>
+<style>
+*{scrollbar-width:thin;scrollbar-color:#D4AF3715 transparent}
+body{background-color:#0d1322;color:#dde2f8;overflow-x:hidden}
+.glass{background:rgba(13,19,34,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(212,175,55,0.12);border-radius:16px}
+.glass-active{background:rgba(26,45,68,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(212,175,55,0.5);box-shadow:0 0 30px rgba(212,175,55,0.1)}
+.gold-text{background:linear-gradient(135deg,#f2ca50 0%,#D4AF37 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-glow{background:radial-gradient(ellipse at 50% 30%,rgba(212,175,55,0.06) 0%,transparent 60%)}
+.skeleton-bg{background:linear-gradient(90deg,rgba(212,175,55,0.04) 25%,rgba(212,175,55,0.12) 50%,rgba(212,175,55,0.04) 75%);background-size:200% 100%;animation:shimmer 2s infinite}
+.geo-bg{background-image:url("https://www.transparenttextures.com/patterns/islamic-art.png");opacity:0.03;pointer-events:none;position:fixed;inset:0;z-index:0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;animation:fadeUp 0.7s ease-out forwards}
+.reveal-d1{animation-delay:0.15s}
+.reveal-d2{animation-delay:0.3s}
+.reveal-d3{animation-delay:0.45s}
+.reveal-d4{animation-delay:0.6s}
+.material-symbols-outlined{vertical-align:middle;font-variation-settings:"FILL" 0,"wght" 400,"GRAD" 0,"opsz" 24}
+.material-symbols-outlined.fill{font-variation-settings:"FILL" 1}
+</style>
+</head>
+<body class="font-body">
+
+<div class="geo-bg"></div>
+
+<!-- ===== NAV ===== -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-primary/10">
+<div class="flex items-center justify-between px-6 lg:px-12 py-4 max-w-7xl mx-auto">
+  <a href="/" class="flex items-center gap-2">
+    <span class="text-3xl text-primary font-arabic font-bold leading-none">۞</span>
+    <span class="text-2xl font-arabic text-primary font-bold">سِبْحَة</span>
+  </a>
+  <div class="hidden md:flex items-center gap-8">
+    <a href="/" class="text-primary border-b-2 border-primary pb-0.5 font-semibold">الرئيسية</a>
+    <a href="#features" class="text-on-surface-variant hover:text-primary transition-colors font-medium">المميزات</a>
+    <a href="#commands" class="text-on-surface-variant hover:text-primary transition-colors font-medium">الأوامر</a>
+    <a href="#dashboard" class="text-on-surface-variant hover:text-primary transition-colors font-medium">الإحصائيات</a>
+  </div>
+  <div class="flex items-center gap-3">
+    <a href="https://discord.com/api/oauth2/authorize?client_id=1511385148896182312&permissions=8&scope=bot" target="_blank" class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold hover:brightness-110 transition-all active:scale-[0.97] shadow-lg shadow-primary/20 flex items-center gap-2">
+      <span class="material-symbols-outlined !text-on-primary" style="font-size:1.25rem">add_circle</span>
+      أضف للبوت
+    </a>
+  </div>
+</div>
+</nav>
+
+<main class="relative z-10">
+
+<!-- ===== HERO ===== -->
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-6 hero-glow relative overflow-hidden pt-24">
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.06] select-none animate-float">
+    <span class="text-[400px] text-primary inline-block">۞</span>
+  </div>
+  <div class="max-w-3xl relative z-10">
+    <h1 class="text-6xl md:text-7xl font-arabic font-bold gold-text mb-4 drop-shadow-2xl reveal">سِبْحَة</h1>
+    <p class="text-xl md:text-2xl text-on-surface-variant mb-6 reveal reveal-d1 font-medium">بوت إسلامي متكامل لديسكورد</p>
+    <div class="reveal reveal-d2 mb-10">
+      <p class="font-arabic text-2xl md:text-3xl text-primary/90 leading-[2.2]">﴿ فَاذْكُرُونِي أَذْكُرْكُمْ ﴾</p>
+      <p class="text-sm text-on-surface-variant/60 mt-1">سورة البقرة — ١٥٢</p>
+    </div>
+    <div class="reveal reveal-d3 flex flex-wrap justify-center gap-4">
+      <a href="https://discord.com/api/oauth2/authorize?client_id=1511385148896182312&permissions=8&scope=bot" target="_blank" class="bg-primary text-on-primary px-10 py-3.5 rounded-xl font-bold text-lg hover:scale-[1.03] transition-transform shadow-xl shadow-primary/25 flex items-center gap-3">
+        أضف للبوت
+        <span class="material-symbols-outlined !text-on-primary" style="font-size:1.5rem">add_circle</span>
+      </a>
+      <a href="#commands" class="border-2 border-primary text-primary px-10 py-3.5 rounded-xl font-bold text-lg hover:bg-primary/10 transition-all">
+        قائمة الأوامر
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="reveal -mt-16 px-6 max-w-5xl mx-auto relative z-20">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="statsGrid">
+    <div class="glass p-6 text-center hover:-translate-y-1 transition-transform">
+      <span class="material-symbols-outlined text-4xl mb-2">dns</span>
+      <div class="text-3xl font-bold text-primary count-up" data-target="0" id="statGuilds">-</div>
+      <div class="text-xs text-on-surface-variant/70 mt-1 font-semibold uppercase tracking-widest">السيرفرات</div>
+    </div>
+    <div class="glass p-6 text-center hover:-translate-y-1 transition-transform">
+      <span class="material-symbols-outlined text-4xl mb-2">group</span>
+      <div class="text-3xl font-bold text-primary count-up" data-target="0" id="statUsers">-</div>
+      <div class="text-xs text-on-surface-variant/70 mt-1 font-semibold uppercase tracking-widest">المستخدمين</div>
+    </div>
+    <div class="glass p-6 text-center hover:-translate-y-1 transition-transform">
+      <span class="material-symbols-outlined text-4xl mb-2">mosque</span>
+      <div class="text-3xl font-bold text-primary count-up" data-target="0" id="statPrayers">-</div>
+      <div class="text-xs text-on-surface-variant/70 mt-1 font-semibold uppercase tracking-widest">الصلوات المسجلة</div>
+    </div>
+    <div class="glass p-6 text-center hover:-translate-y-1 transition-transform">
+      <span class="material-symbols-outlined text-4xl mb-2">sports_esports</span>
+      <div class="text-3xl font-bold text-primary count-up" data-target="0" id="statGames">-</div>
+      <div class="text-xs text-on-surface-variant/70 mt-1 font-semibold uppercase tracking-widest">الألعاب</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="py-24 px-6 max-w-7xl mx-auto" id="features">
+  <div class="text-center mb-16 reveal">
+    <h2 class="text-4xl font-arabic font-bold text-primary mb-4">مميزات سِبْحَة</h2>
+    <div class="h-1 w-20 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full"></div>
+  </div>
+  <div class="grid md:grid-cols-3 gap-6" id="featuresGrid"></div>
+</section>
+
+<!-- ===== PRAYER TIMES ===== -->
+<section class="py-16 px-6 max-w-5xl mx-auto reveal" id="prayerSection">
+  <div class="text-center mb-10">
+    <h3 class="text-2xl font-arabic font-bold text-primary mb-2">🕌 مواقيت الصلاة اليوم</h3>
+    <p class="text-on-surface-variant/70" id="prayerLocation">مكة المكرمة</p>
+  </div>
+  <div class="flex flex-wrap md:flex-nowrap gap-4 justify-center" id="prayerGrid">
+    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
+      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
+      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
+    </div>
+    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
+      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
+      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
+    </div>
+    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
+      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
+      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
+    </div>
+    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
+      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
+      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
+    </div>
+    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
+      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
+      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
+    </div>
+    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
+      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
+      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DASHBOARD ===== -->
+<section class="py-24 px-6 bg-surface-container-low/50" id="dashboard">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-5 reveal">
+        <h2 class="text-3xl font-arabic font-bold text-primary mb-6">📊 لوحة التحكم</h2>
+        <p class="text-lg text-on-surface-variant/80 mb-8 leading-relaxed">إحصائيات حية من قاعدة بيانات البوت — راقب نشاط مجتمعك الإسلامي في سيرفرك.</p>
+        <ul class="space-y-4">
+          <li class="flex items-center gap-3 text-on-surface font-semibold">
+            <span class="material-symbols-outlined fill !text-primary">verified</span>
+            إحصائيات فورية
+          </li>
+          <li class="flex items-center gap-3 text-on-surface font-semibold">
+            <span class="material-symbols-outlined fill !text-primary">verified</span>
+            لوحة شرف ديناميكية
+          </li>
+          <li class="flex items-center gap-3 text-on-surface font-semibold">
+            <span class="material-symbols-outlined fill !text-primary">verified</span>
+            تتبع التقدم والشارات
+          </li>
+        </ul>
+      </div>
+      <div class="lg:col-span-7 glass p-6 reveal reveal-d2">
+        <div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+          <h4 class="text-xl font-bold text-primary">🏆 المتصدرون</h4>
+          <div class="flex gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500/40"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/40"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-green-500/40"></span>
+          </div>
+        </div>
+        <div class="space-y-3" id="lbPreview">
+          <div class="flex items-center justify-between p-4 bg-white/[0.03] rounded-xl border border-primary/5">
+            <div class="flex items-center gap-4">
+              <div class="skeleton-bg w-10 h-10 rounded-full"></div>
+              <div>
+                <div class="skeleton-bg rounded h-4 w-24 mb-1"></div>
+                <div class="skeleton-bg rounded h-3 w-16"></div>
+              </div>
+            </div>
+            <div class="skeleton-bg rounded h-5 w-16"></div>
+          </div>
+          <div class="flex items-center justify-between p-4 bg-white/[0.03] rounded-xl border border-primary/5">
+            <div class="flex items-center gap-4">
+              <div class="skeleton-bg w-10 h-10 rounded-full"></div>
+              <div>
+                <div class="skeleton-bg rounded h-4 w-24 mb-1"></div>
+                <div class="skeleton-bg rounded h-3 w-16"></div>
+              </div>
+            </div>
+            <div class="skeleton-bg rounded h-5 w-16"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMMANDS ===== -->
+<section class="py-24 px-6 max-w-7xl mx-auto" id="commands">
+  <div class="text-center mb-16 reveal">
+    <h2 class="text-4xl font-arabic font-bold text-primary mb-4">📋 الأوامر</h2>
+    <p class="text-on-surface-variant/70">أكثر من ٦٠ أمراً — تسع فئات</p>
+    <div class="h-1 w-20 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full mt-4"></div>
+  </div>
+  <div class="glass overflow-hidden reveal" id="cmdsWrap">
+    <div class="p-8 text-center text-on-surface-variant/50">
+      <div class="inline-block w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mb-2"></div>
+      <div>جاري تحميل الأوامر...</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="border-t border-primary/10 py-12 px-6 bg-surface-container-lowest relative z-10">
+  <div class="max-w-7xl mx-auto text-center reveal">
+    <div class="flex items-center justify-center gap-3 mb-6">
+      <span class="text-3xl text-primary font-arabic font-bold">۞</span>
+      <span class="text-2xl font-arabic text-primary font-bold">سِبْحَة</span>
+    </div>
+    <p class="font-arabic text-lg text-on-surface-variant/60 mb-6">﴿ فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ ﴾</p>
+    <div class="flex justify-center gap-8 mb-8 flex-wrap">
+      <a href="#features" class="text-on-surface-variant/60 hover:text-primary transition-colors text-sm">المميزات</a>
+      <a href="#commands" class="text-on-surface-variant/60 hover:text-primary transition-colors text-sm">الأوامر</a>
+      <a href="#dashboard" class="text-on-surface-variant/60 hover:text-primary transition-colors text-sm">لوحة التحكم</a>
+      <a href="https://discord.com/api/oauth2/authorize?client_id=1511385148896182312&permissions=8&scope=bot" target="_blank" class="text-on-surface-variant/60 hover:text-primary transition-colors text-sm">دعوة البوت</a>
+    </div>
+    <div class="text-xs text-on-surface-variant/40 leading-relaxed">
+      <span class="text-primary/60">اللهم اجعله صدقة جارية</span> لي ولوالدي ولجميع المسلمين<br>
+      سِبْحَة v2.0.0 — سبحان الله وبحمده — سبحان الله العظيم
+    </div>
+  </div>
+</footer>
+
+<script>
+// ===== Animations =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.animationPlayState = 'running';
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  observer.observe(el);
+});
+
+// ===== Stats =====
+async function loadStats() {
+  try {
+    const d = await fetch('/api/stats').then(r => r.json());
+    if (!d) return;
+    const ids = ['statGuilds','statUsers','statPrayers','statGames'];
+    const vals = [d.guilds||0, d.users||0, d.prayers||0, d.games||0];
+    ids.forEach((id,i) => {
+      const el = document.getElementById(id);
+      if (el) animateCount(el, vals[i]);
+    });
+  } catch {}
+}
+
+function animateCount(el, target) {
+  if (target === 0) { el.textContent = '0'; return; }
+  const dur = 1500;
+  const step = 20;
+  const inc = target / (dur / step);
+  let cur = 0;
+  const t = setInterval(() => {
+    cur += inc;
+    if (cur >= target) { el.textContent = target.toLocaleString(); clearInterval(t); }
+    else el.textContent = Math.floor(cur).toLocaleString();
+  }, step);
+}
+
+// ===== Features =====
+const features = [
+  {icon:'menu_book',t:'القرآن الكريم',d:'آيات، تفسير، صفحات المصحف، بحث، راديو صوتي، ختمة جماعية',tags:['آية','تفسير','بحث','راديو','ختمة']},
+  {icon:'self_improvement',t:'الأذكار',d:'أذكار الصباح والمساء، أدعية، مسبحة تفاعلية رقمية',tags:['أذكار','دعاء','مسبحة']},
+  {icon:'auto_stories',t:'الحديث النبوي',d:'الأربعون النووية، أحاديث من الكتب الستة، بحث بالكلمة والموضوع',tags:['حديث','بحث','الأربعون']},
+  {icon:'balance',t:'الفتوى',d:'فتاوى في جميع أبواب الفقه، أسئلة دينية، مصطلحات شرعية',tags:['فتوى','سؤال','مصطلح']},
+  {icon:'mosque',t:'الصلاة',d:'مواقيت الصلاة لأي مدينة، قبلة، تسجيل صلاة، أذان تلقائي',tags:['مواقيت','قبلة','سجل','أذان']},
+  {icon:'diamond',t:'الزكاة',d:'حاسبة الزكاة، نصاب الذهب والفضة، زكاة الفطر',tags:['مال','فطر','نصاب']},
+  {icon:'history',t:'التاريخ الإسلامي',d:'أحداث، تحويل التاريخ، سير الصحابة، السيرة النبوية',tags:['أحداث','تحويل','صحابي','سيرة']},
+  {icon:'stadia_controller',t:'الألعاب',d:'اختبار ديني، أكمل الآية، مسابقة قرآن، من أنا، ترتيب السور',tags:['اختبار','مسابقة','سباق']},
+  {icon:'emoji_events',t:'الإنجازات',d:'شارات، لوحة الشرف، تحديات أسبوعية، ورد يومي',tags:['شارات','تحديات','ورد']},
+];
+document.getElementById('featuresGrid').innerHTML = features.map(f => `
+  <div class="glass p-8 border-t-4 border-t-primary hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 reveal">
+    <div class="w-14 h-14 bg-primary/15 rounded-2xl flex items-center justify-center mb-6">
+      <span class="material-symbols-outlined text-3xl">${f.icon}</span>
+    </div>
+    <h4 class="text-xl font-bold text-on-surface mb-2">${f.t}</h4>
+    <p class="text-on-surface-variant/80 leading-relaxed text-sm">${f.d}</p>
+    <div class="flex flex-wrap gap-1.5 mt-4">
+      ${f.tags.map(t => '<span class="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/10">'+t+'</span>').join('')}
+    </div>
+  </div>`).join('');
+
+// ===== Prayer Times =====
+async function loadPrayer() {
+  try {
+    const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Mecca&country=Saudi%20Arabia&method=5');
+    const data = await res.json();
+    if (!data?.data) throw Error();
+    const t = data.data.timings;
+    const date = data.data.date?.readable || '';
+    document.getElementById('prayerLocation').textContent = '🏙️ مكة المكرمة — ' + date;
+    
+    const prayers = [
+      {name:'الفجر',key:'Fajr'},{name:'الشروق',key:'Sunrise'},
+      {name:'الظهر',key:'Dhuhr'},{name:'العصر',key:'Asr'},
+      {name:'المغرب',key:'Maghrib'},{name:'العشاء',key:'Isha'},
+    ];
+    const now = new Date();
+    const curMin = now.getHours() * 60 + now.getMinutes();
+
+    document.getElementById('prayerGrid').innerHTML = prayers.map((p,i) => {
+      const [h,m] = t[p.key].split(':').map(Number);
+      const mins = h * 60 + m;
+      const isNext = (i === 0 && curMin < mins) || (i > 0 && curMin >= (() => { const [ph,pm] = t[prayers[i-1].key].split(':').map(Number); return ph*60+pm; })() && curMin < mins);
+      return `<div class="glass ${isNext ? 'glass-active scale-[1.02] z-10' : 'opacity-60 hover:opacity-100'} p-6 flex-1 min-w-[120px] text-center transition-all relative">
+        ${isNext ? '<div class="absolute -top-0.5 right-0 bg-primary text-on-primary text-[10px] px-2.5 py-1 rounded-bl-xl font-bold">الآن</div>' : ''}
+        <p class="text-sm text-on-surface-variant mb-2 font-semibold">${p.name}</p>
+        <p class="text-2xl font-bold ${isNext ? 'text-primary' : 'text-on-surface'}">${t[p.key]}</p>
+      </div>`;
+    }).join('');
+  } catch {}
+}
+loadPrayer();
+
+// ===== Commands =====
+const fallbackCmds = [
+  {c:'قرآن',subs:[{n:'آية',d:'عرض آية قرآنية',o:['السورة','الآية']},{n:'آيات',d:'عرض مجموعة آيات',o:['السورة','من','إلى']},{n:'آية-يومية',d:'آية عشوائية',o:[]},{n:'بحث',d:'البحث في القرآن',o:['كلمة']},{n:'تفسير',d:'تفسير آية',o:['السورة','الآية']},{n:'صفحة',d:'عرض صفحة من المصحف',o:['رقم']},{n:'راديو',d:'تشغيل الراديو',o:['القارئ','حالة']},{n:'ختمة',d:'الختمة الجماعية',o:['تسجيل']}]},
+  {c:'صلاة',subs:[{n:'أوقات',d:'أوقات الصلاة',o:['city']},{n:'قبلة',d:'اتجاه القبلة',o:['city','country']},{n:'سجل',d:'تسجيل صلاة',o:['prayer']},{n:'نقاطي',d:'نقاط الصلاة',o:[]},{n:'لوحة',d:'لوحة المصلين',o:[]},{n:'إعداد-أذان',d:'إعداد الأذان',o:['channel','city','country']}]},
+  {c:'حديث',subs:[{n:'اليوم',d:'حديث اليوم',o:[]},{n:'عشوائي',d:'حديث عشوائي',o:['الكتاب']},{n:'بحث',d:'بحث في الأحاديث',o:['كلمة']},{n:'أحاديث',d:'أحاديث بموضوع',o:['الموضوع']},{n:'الأربعون-النووية',d:'الأربعون النووية',o:['الرقم']}]},
+  {c:'أذكار',subs:[{n:'أذكار',d:'عرض الأذكار',o:[]},{n:'ذكر',d:'اذكر الله',o:['النوع']},{n:'دعاء-اليوم',d:'دعاء اليوم',o:[]},{n:'مسبحة',d:'مسبحة تفاعلية',o:[]},{n:'ضبط',d:'إعدادات الأذكار',o:['الروم','وقت-الصباح','وقت-المساء','رول-التنبيه']}]},
+  {c:'فتوى',subs:[{n:'اليوم',d:'فتوى اليوم',o:[]},{n:'بحث',d:'بحث في الفتاوى',o:['موضوع']},{n:'سؤال',d:'سؤال ديني',o:[]},{n:'مصطلح',d:'مصطلح شرعي',o:['الكلمة']}]},
+  {c:'زكاة',subs:[{n:'مال',d:'حساب الزكاة',o:['المبلغ','العملة','عملة-أخرى']},{n:'فطر',d:'زكاة الفطر',o:[]},{n:'نصاب',d:'نصاب الذهب والفضة',o:[]},{n:'فضل-الصدقة',d:'فضل الصدقة',o:[]}]},
+  {c:'لعبة',subs:[{n:'اختبار-ديني',d:'اختبار ديني',o:['المادة']},{n:'أكمل-الآية',d:'أكمل الآية',o:[]},{n:'مسابقة-قرآن',d:'مسابقة قرآنية',o:['المستوى']},{n:'من-أنا',d:'خمن الشخصية',o:[]},{n:'ترتيب-السور',d:'ترتيب السور',o:[]},{n:'سباق-السرعة',d:'سباق السرعة',o:[]},{n:'نقاطي',d:'نقاطي',o:[]},{n:'لوحة-الشرف',d:'لوحة الشرف',o:[]}]},
+  {c:'تاريخ',subs:[{n:'اليوم',d:'حدث في مثل هذا اليوم',o:[]},{n:'هجري',d:'التاريخ الهجري',o:[]},{n:'تحويل',d:'تحويل التاريخ',o:['اليوم','الشهر','السنة','إلى']},{n:'صحابي',d:'سيرة صحابي',o:['الاسم']},{n:'سيرة',d:'السيرة النبوية',o:['الموضوع']}]},
+  {c:'إعدادات',subs:[{n:'عرض',d:'لوحة الإعدادات',o:[]},{n:'لغة',d:'تغيير اللغة',o:['اللغة']},{n:'دور-ديني',d:'رول ديني',o:['الدور','الرول']},{n:'إعادة-ضبط',d:'إعادة ضبط',o:[]},{n:'تذكير-شخصي',d:'تذكير',o:['النوع','الوقت','العنوان']},{n:'تحدي-الأسبوع',d:'التحدي الأسبوعي',o:['النوع']},{n:'ورد-اليوم',d:'ورد يومي',o:[]},{n:'إنجازاتي',d:'الشارات',o:[]},{n:'إحصائيات',d:'إحصائيات السيرفر',o:[]},{n:'حالة-البوت',d:'حالة البوت',o:[]},{n:'بنق',d:'اختبار',o:[]}]},
+];
+
+function renderCmds(groups) {
+  const wrap = document.getElementById('cmdsWrap');
+  let h = '<table class="w-full text-right border-collapse"><thead><tr class="bg-primary/5"><th class="p-5 text-primary border-b border-primary/10 font-bold text-lg w-[35%]">الأمر</th><th class="p-5 text-primary border-b border-primary/10 font-bold text-lg">الوصف</th></tr></thead><tbody class="divide-y divide-primary/[0.04]">';
+  groups.forEach(g => {
+    h += `<tr class="bg-primary/[0.02]"><td colspan="2" class="p-3 pr-6 font-arabic text-lg text-primary font-bold border-b border-primary/5">/${g.c}</td></tr>`;
+    g.subs.forEach(s => {
+      const opt = s.o.length ? ' <span class="text-on-surface-variant/40 text-xs">' + s.o.map(x => '['+x+']').join(' ') + '</span>' : '';
+      h += `<tr class="hover:bg-white/[0.02] transition-colors"><td class="p-3 pr-10"><span class="font-mono text-primary text-sm font-bold">${s.n}</span>${opt}</td><td class="p-3 text-on-surface-variant/80 text-sm">${s.d}</td></tr>`;
+    });
+  });
+  h += '</tbody></table>';
+  wrap.innerHTML = h;
+}
+
+fetch('/api/commands').then(r => r.ok ? r.json() : Promise.reject())
+  .then(d => { if (d && d.length) renderCmds(d); else renderCmds(fallbackCmds); })
+  .catch(() => renderCmds(fallbackCmds));
+
+// ===== Leaderboard =====
+fetch('/api/leaderboard').then(r => r.ok ? r.json() : Promise.reject()).then(lb => {
+  if (!lb || !lb.length) {
+    document.getElementById('lbPreview').innerHTML = '<div class="p-6 text-center text-on-surface-variant/50">لا توجد بيانات بعد</div>';
+    return;
+  }
+  const medals = ['🥇','🥈','🥉'];
+  document.getElementById('lbPreview').innerHTML = lb.slice(0,5).map((u,i) => `
+    <div class="flex items-center justify-between p-4 bg-white/[0.03] rounded-xl border border-primary/5 hover:border-primary/20 transition-all">
+      <div class="flex items-center gap-4">
+        <span class="text-xl">${medals[i] || '#'+(i+1)}</span>
+        <div>
+          <div class="font-bold text-on-surface">${u.id}</div>
+          <div class="text-xs text-primary/70">${u.level || 'طالب علم'}</div>
+        </div>
+      </div>
+      <div class="text-primary font-bold text-lg">${u.points.toLocaleString()}</div>
+    </div>`).join('');
+}).catch(()=>{});
+
+// ===== Count-up =====
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const val = parseInt(el.textContent.replace(/[^0-9]/g,'')) || 0;
+      const target = parseInt(el.getAttribute('data-target')) || val;
+      animateCount(el, target);
+      countObs.unobserve(el);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.count-up').forEach(el => countObs.observe(el));
+
+// ===== Init =====
+loadStats();
+</script>
+</body>
+</html>

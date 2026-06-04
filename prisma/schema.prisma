@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Guild {
+  id        String   @id
+  name      String
+  lang      String   @default("ar")
+  createdAt DateTime @default(now())
+
+  settings         GuildSetting?
+  prayerSettings   PrayerSetting[]
+  adhkarSchedule   AdhkarSchedule?
+  challenge        WeeklyChallenge[]
+  completedKhatmas KhatmaParticipant[]
+}
+
+model GuildSetting {
+  id               String @id @default(cuid())
+  guildId          String @unique
+  guild            Guild  @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  adhkarChannel    String?
+  adhkarRole       String?
+  prayerChannel    String?
+  announcementChan String?
+  adhkarMorning    String @default("06:00")
+  adhkarEvening    String @default("18:00")
+}
+
+model PrayerSetting {
+  id       String @id @default(cuid())
+  guildId  String
+  guild    Guild  @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  channel  String
+  city     String
+  country  String
+  method   Int    @default(5)
+  @@unique([guildId, channel])
+}
+
+model AdhkarSchedule {
+  id       String @id @default(cuid())
+  guildId  String @unique
+  guild    Guild  @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  morning  Boolean @default(true)
+  evening  Boolean @default(true)
+  sleep    Boolean @default(false)
+  wakeup   Boolean @default(false)
+  afterPrayer Boolean @default(true)
+}
+
+model User {
+  id        String @id
+  username  String
+  createdAt DateTime @default(now())
+
+  points  UserPoint?
+  prayers PrayerLog[]
+  scores  GameScore[]
+  khatmas KhatmaProgress[]
+  badges  UserBadge[]
+}
+
+model UserPoint {
+  id          String @id @default(cuid())
+  userId      String @unique
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  total       Int    @default(0)
+  prayerPts   Int    @default(0)
+  quizPts     Int    @default(0)
+  gamePts     Int    @default(0)
+  streak      Int    @default(0)
+  level       String @default("طالب علم")
+}
+
+model PrayerLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  prayer    String
+  date      DateTime @default(now())
+  createdAt DateTime @default(now())
+}
+
+model GameScore {
+  id        String @id @default(cuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gameType  String
+  score     Int    @default(0)
+  correct   Int    @default(0)
+  wrong     Int    @default(0)
+}
+
+model KhatmaProgress {
+  id        String @id @default(cuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guildId   String
+  juz       Int    @default(1)
+  page      Int    @default(1)
+  completed Boolean @default(false)
+  @@unique([userId, guildId])
+}
+
+model KhatmaParticipant {
+  id        String @id @default(cuid())
+  guildId   String
+  guild     Guild  @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  userId    String
+  juz       String @default("")
+  createdAt DateTime @default(now())
+  @@unique([guildId, userId])
+}
+
+model WeeklyChallenge {
+  id        String   @id @default(cuid())
+  guildId   String
+  guild     Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  description String
+  startDate DateTime @default(now())
+  endDate   DateTime
+  active    Boolean  @default(true)
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId   String
+  badgeName String
+  badgeDesc String
+  earnedAt  DateTime @default(now())
+}
+
+model Reminder {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  time      String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
