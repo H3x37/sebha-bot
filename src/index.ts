@@ -16,6 +16,7 @@ const client = new Client({
 
 client.once(Events.ClientReady, async () => {
   console.log(`${config.botName} متصل كـ ${client.user?.tag}`);
+  config.avatarURL = client.user?.displayAvatarURL() || '';
 
   client.commands = await loadCommands();
   startScheduledTasks(client);
