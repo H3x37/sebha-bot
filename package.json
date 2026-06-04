@@ -4,8 +4,9 @@
   "description": "سِبْحَة — بوت إسلامي متكامل لديسكورد",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npx prisma generate && tsc",
-    "start": "npx prisma generate && npx prisma db push && node dist/index.js",
+    "postinstall": "npx prisma generate",
+    "build": "tsc",
+    "start": "npx prisma db push && node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "deploy": "tsx src/deploy-commands.ts",
     "prisma:generate": "prisma generate",
