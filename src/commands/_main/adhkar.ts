@@ -7,7 +7,7 @@ import { Command } from '../../types';
 import { buildEmbed, errorEmbed } from '../../utils/embed';
 import prisma from '../../utils/prisma';
 import { adhkar, morningAdhkar, eveningAdhkar, sleepAdhkar, prayerAdhkar, eatingAdhkar, travelAdhkar, homeAdhkar, weddingAdhkar, duaToday, seasonalAdhkar } from '../../data/adhkar';
-import { arabicNumeral, bold, blockquote } from '../../utils/format';
+import { arabicNumeral } from '../../utils/format';
 
 export default {
   data: new SlashCommandBuilder()
@@ -127,6 +127,7 @@ export default {
 
       function buildPage(i: number) {
         const item = data[i];
+        const avatar = interaction.client.user.displayAvatarURL();
         const now = new Date();
         const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
         const fields: { name: string; value: string; inline?: boolean }[] = [
@@ -139,9 +140,10 @@ export default {
         return new EmbedBuilder()
           .setTitle(title)
           .setDescription(item.text)
+          .setThumbnail(avatar)
           .setColor(0x10a3a4)
           .addFields(fields)
-          .setFooter({ text: `الصفحة • ${arabicNumeral(i + 1)}/${data.length} • ${timeStr}` })
+          .setFooter({ text: `الصفحة • ${arabicNumeral(i + 1)}/${data.length} • ${timeStr}`, iconURL: avatar })
           .setTimestamp(new Date());
       }
 
@@ -229,6 +231,7 @@ export default {
 
       function buildDhikrPage(i: number) {
         const item = data[i];
+        const avatar = interaction.client.user.displayAvatarURL();
         const now = new Date();
         const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
         const fields: { name: string; value: string; inline?: boolean }[] = [
@@ -241,9 +244,10 @@ export default {
         return new EmbedBuilder()
           .setTitle(title)
           .setDescription(item.text)
+          .setThumbnail(avatar)
           .setColor(0x10a3a4)
           .addFields(fields)
-          .setFooter({ text: `الصفحة • ${arabicNumeral(i + 1)}/${data.length} • ${timeStr}` })
+          .setFooter({ text: `الصفحة • ${arabicNumeral(i + 1)}/${data.length} • ${timeStr}`, iconURL: avatar })
           .setTimestamp(new Date());
       }
 
@@ -292,6 +296,7 @@ export default {
     if (sub === 'دعاء-اليوم') {
       const index = new Date().getDate() % duaToday.length;
       const dua = duaToday[index];
+      const avatar = interaction.client.user.displayAvatarURL();
       const now = new Date();
       const timeStr = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
       const fields: { name: string; value: string; inline?: boolean }[] = [
@@ -305,9 +310,10 @@ export default {
       const embed = new EmbedBuilder()
         .setTitle('دعاء اليوم')
         .setDescription(dua.text)
+        .setThumbnail(avatar)
         .setColor(0x10a3a4)
         .addFields(fields)
-        .setFooter({ text: `دعاء اليوم • ${timeStr}` })
+        .setFooter({ text: `دعاء اليوم • ${timeStr}`, iconURL: avatar })
         .setTimestamp(new Date());
 
       await interaction.reply({ embeds: [embed] });
@@ -325,16 +331,19 @@ export default {
       }
 
       function buildMsbahaEmbed() {
-        return buildEmbed('adhkar', {
-          author: 'المسبحة الرقمية',
-          title: '۞ ذكر الله',
-          description: blockquote(tasbih[currentTasbih]),
-          fields: [
-            { name: bold('التسبيحة'), value: tasbih[currentTasbih], inline: true },
-            { name: bold('العدد'), value: `${arabicNumeral(count)}`, inline: true },
-            { name: bold('التقدم'), value: `${Math.round((count / totalGoal) * 100)}%`, inline: true },
-          ],
-        });
+        const avatar = interaction.client.user.displayAvatarURL();
+        return new EmbedBuilder()
+          .setTitle('۞ ذكر الله')
+          .setDescription(tasbih[currentTasbih])
+          .setThumbnail(avatar)
+          .setColor(0x10a3a4)
+          .addFields(
+            { name: 'التسبيحة', value: tasbih[currentTasbih], inline: true },
+            { name: 'العدد', value: `${arabicNumeral(count)}/${arabicNumeral(totalGoal)}`, inline: true },
+            { name: 'التقدم', value: `${Math.round((count / totalGoal) * 100)}%`, inline: true },
+          )
+          .setFooter({ text: 'المسبحة الرقمية', iconURL: avatar })
+          .setTimestamp(new Date());
       }
 
       const tasbihBtn = new ButtonBuilder()
