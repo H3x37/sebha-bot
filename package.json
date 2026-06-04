@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "npx prisma generate",
     "build": "tsc",
-    "start": "npx prisma db push && node dist/index.js",
+    "start": "npx prisma db push && npx tsx src/deploy-commands.ts && node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "deploy": "tsx src/deploy-commands.ts",
     "prisma:generate": "prisma generate",
