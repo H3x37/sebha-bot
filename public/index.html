@@ -420,73 +420,61 @@
 </div>
 </footer>
 <script>
-    // Reveal Observer for entrance animations
     const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
     }, { threshold: 0.1 });
-
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    // Stats Counter Observer
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counters = entry.target.querySelectorAll('.count-up');
-                counters.forEach(counter => {
-                    const target = parseInt(counter.getAttribute('data-target'));
-                    animateValue(counter.id, 0, target, 2500);
-                });
-                statsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    const statsSection = document.getElementById('stats');
-    if (statsSection) statsObserver.observe(statsSection);
 
     function animateValue(id, start, end, duration) {
         const obj = document.getElementById(id);
-        if (!obj) return;
-        const range = end - start;
+        if (!obj || end === 0) { if (obj) obj.innerHTML = '0'; return; }
         const startTime = new Date().getTime();
-        
         function run() {
-            const now = new Date().getTime();
-            const progress = Math.min((now - startTime) / duration, 1);
-            const easeProgress = 1 - Math.pow(1 - progress, 3);
-            const value = Math.round(start + (easeProgress * range));
-            
-            if (end >= 1000000) {
-                obj.innerHTML = (value / 1000000).toFixed(1) + "M+";
-            } else if (end >= 1000) {
-                obj.innerHTML = (value / 1000).toFixed(0) + "K+";
-            } else {
-                obj.innerHTML = value + "+";
-            }
-
-            if (progress < 1) {
-                requestAnimationFrame(run);
-            }
+            const progress = Math.min((new Date().getTime() - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = Math.round(start + (eased * (end - start)));
+            if (end >= 1000000) obj.innerHTML = (value / 1000000).toFixed(1) + 'M+';
+            else if (end >= 1000) obj.innerHTML = (value / 1000).toFixed(0) + 'K+';
+            else obj.innerHTML = value;
+            if (progress < 1) requestAnimationFrame(run);
         }
         requestAnimationFrame(run);
     }
 
-    // Fetch leaderboard from API
-    fetch('/api/leaderboard')
-        .then(r => r.ok ? r.json() : Promise.reject())
-        .then(data => {
-            const tbody = document.getElementById('leaderboard-body');
-            if (!data || data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" class="py-10 text-center text-on-surface-variant">لا توجد بيانات بعد</td></tr>';
-                return;
-            }
+    function startCounters(data) {
+        const ids = ['counter-servers', 'counter-users', 'counter-prayers', 'counter-games'];
+        const keys = ['guilds', 'users', 'prayers', 'games'];
+        ids.forEach((id, i) => {
+            const el = document.getElementById(id);
+            if (el && data && data[keys[i]] !== undefined) el.setAttribute('data-target', data[keys[i]]);
+        });
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.count-up').forEach(c => {
+                        animateValue(c.id, 0, parseInt(c.getAttribute('data-target')) || 0, 2500);
+                    });
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        const section = document.getElementById('stats');
+        if (section) obs.observe(section);
+    }
+
+    // Fetch API data then init counters & leaderboard
+    Promise.all([
+        fetch('/api/stats').then(r => r.ok ? r.json() : Promise.reject()).catch(() => null),
+        fetch('/api/leaderboard').then(r => r.ok ? r.json() : Promise.reject()).catch(() => null)
+    ]).then(([stats, lb]) => {
+        startCounters(stats);
+
+        // Leaderboard
+        const tbody = document.getElementById('leaderboard-body');
+        if (lb && lb.length > 0) {
             const medals = ['🥇', '🥈', '🥉'];
-            tbody.innerHTML = data.slice(0, 10).map((u, i) => {
-                const initial = u.id?.charAt(0) || '?';
+            tbody.innerHTML = lb.slice(0, 10).map((u, i) => {
+                const initial = (u.id || '?').charAt(0);
                 const isTop3 = i < 3;
                 return `<tr class="border-b border-outline-variant/30 hover:bg-white/50 transition-colors">
                     <td class="py-5 px-8 font-bold ${isTop3 ? 'text-secondary' : 'text-on-surface-variant'}">${medals[i] || '#' + (i + 1)}</td>
@@ -497,31 +485,16 @@
                     <td class="py-5 px-8 font-bold">${(u.points || 0).toLocaleString()}</td>
                 </tr>`;
             }).join('');
-        })
-        .catch(() => {
-            const tbody = document.getElementById('leaderboard-body');
-            tbody.innerHTML = '<tr><td colspan="3" class="py-10 text-center text-on-surface-variant">تعذر تحميل البيانات</td></tr>';
-        });
+        } else {
+            tbody.innerHTML = '<tr><td colspan="3" class="py-10 text-center text-on-surface-variant">لا توجد بيانات بعد</td></tr>';
+        }
+    });
 
-    // Fetch real stats from API
-    fetch('/api/stats')
-        .then(r => r.ok ? r.json() : Promise.reject())
-        .then(data => {
-            if (data.guilds !== undefined) document.getElementById('counter-servers').setAttribute('data-target', data.guilds);
-            if (data.users !== undefined) document.getElementById('counter-users').setAttribute('data-target', data.users);
-            if (data.prayers !== undefined) document.getElementById('counter-prayers').setAttribute('data-target', data.prayers);
-            if (data.games !== undefined) document.getElementById('counter-games').setAttribute('data-target', data.games);
-        })
-        .catch(() => {});
-
-    // Smooth scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
+            const t = document.querySelector(this.getAttribute('href'));
+            if (t) t.scrollIntoView({ behavior: 'smooth' });
         });
     });
 </script>
