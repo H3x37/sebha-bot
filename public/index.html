@@ -1,463 +1,529 @@
-<!DOCTYPE html>
-<html class="dark" dir="rtl" lang="ar">
-<head>
+<!DOCTYPE html><html dir="rtl" lang="ar"><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>سِبْحَة | بوت إسلامي متكامل لديسكورد</title>
+<title>سبحة - رفيقك المسلم في عالم ديسكورد</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0&display=swap" rel="stylesheet">
-<script>
-tailwind.config={
-  darkMode:"class",
-  theme:{
-    extend:{
-      colors:{
-        primary:"#D4AF37",
-        "on-primary":"#3c2f00",
-        "background":"#0d1322",
-        "surface":"#0d1322",
-        "surface-dim":"#0d1322",
-        "surface-bright":"#33394a",
-        "surface-container":"#191f2f",
-        "surface-container-low":"#151b2b",
-        "surface-container-lowest":"#080e1d",
-        "surface-container-high":"#242a3a",
-        "on-background":"#dde2f8",
-        "on-surface":"#dde2f8",
-        "on-surface-variant":"#d0c5af",
-        secondary:"#76d7c8",
-        tertiary:"#eccd5d",
-        outline:"#99907c",
-        "outline-variant":"#4d4635",
-      },
-      fontFamily:{
-        arabic:["Amiri","serif"],
-        body:["Inter","sans-serif"],
-      },
-      borderRadius:{
-        DEFAULT:"0.25rem",
-        lg:"16px",
-        xl:"24px",
-      },
-      animation:{
-        float:"float 6s ease-in-out infinite",
-        shimmer:"shimmer 2s infinite",
-      },
-      keyframes:{
-        float:{
-          "0%,100%":{transform:"translateY(0px)"},
-          "50%":{transform:"translateY(-20px)"},
-        },
-        shimmer:{
-          "0%":{backgroundPosition:"-200% 0"},
-          "100%":{backgroundPosition:"200% 0"},
-        },
-      },
-    },
-  },
-};
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&amp;family=Be+Vietnam+Pro:wght@400;500;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <style>
-*{scrollbar-width:thin;scrollbar-color:#D4AF3715 transparent}
-body{background-color:#0d1322;color:#dde2f8;overflow-x:hidden}
-.glass{background:rgba(13,19,34,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(212,175,55,0.12);border-radius:16px}
-.glass-active{background:rgba(26,45,68,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(212,175,55,0.5);box-shadow:0 0 30px rgba(212,175,55,0.1)}
-.gold-text{background:linear-gradient(135deg,#f2ca50 0%,#D4AF37 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-glow{background:radial-gradient(ellipse at 50% 30%,rgba(212,175,55,0.06) 0%,transparent 60%)}
-.skeleton-bg{background:linear-gradient(90deg,rgba(212,175,55,0.04) 25%,rgba(212,175,55,0.12) 50%,rgba(212,175,55,0.04) 75%);background-size:200% 100%;animation:shimmer 2s infinite}
-.geo-bg{background-image:url("https://www.transparenttextures.com/patterns/islamic-art.png");opacity:0.03;pointer-events:none;position:fixed;inset:0;z-index:0}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.reveal{opacity:0;animation:fadeUp 0.7s ease-out forwards}
-.reveal-d1{animation-delay:0.15s}
-.reveal-d2{animation-delay:0.3s}
-.reveal-d3{animation-delay:0.45s}
-.reveal-d4{animation-delay:0.6s}
-.material-symbols-outlined{vertical-align:middle;font-variation-settings:"FILL" 0,"wght" 400,"GRAD" 0,"opsz" 24}
-.material-symbols-outlined.fill{font-variation-settings:"FILL" 1}
-</style>
+        body {
+            background-color: #f8f9ff;
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 53, 39, 0.03) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .mashrabiya-overlay {
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+            background-image: url('https://www.transparenttextures.com/patterns/p6.png');
+            opacity: 0.05;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(191, 201, 195, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 53, 39, 0.1), 0 8px 10px -6px rgba(0, 53, 39, 0.1);
+            border-color: rgba(149, 211, 186, 0.5);
+        }
+        .bento-card-special:hover {
+            box-shadow: 0 20px 25px -5px rgba(115, 92, 0, 0.2);
+            border-color: rgba(233, 195, 73, 0.5);
+        }
+        .floating-shape {
+            animation: float 8s ease-in-out infinite;
+        }
+        .drifting-shape {
+            animation: drift 20s linear infinite alternate;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        @keyframes drift {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(40px, 40px) rotate(15deg); }
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 2px 10px;
+            border-radius: 9999px;
+            background: rgba(0, 53, 39, 0.05);
+            color: #0b513d;
+            margin: 2px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .tag:hover {
+            background: rgba(0, 53, 39, 0.12);
+        }
+        .feature-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .feature-detail.open {
+            max-height: 300px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#0b513d",
+                      "surface-container-low": "#eff4ff",
+                      "on-tertiary-container": "#b2b1ae",
+                      "outline-variant": "#bfc9c3",
+                      "on-secondary-container": "#745c00",
+                      "secondary-container": "#fed65b",
+                      "primary-container": "#064e3b",
+                      "surface-dim": "#d0dbed",
+                      "surface-container-high": "#dee9fc",
+                      "tertiary-container": "#444442",
+                      "background": "#f8f9ff",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-fixed": "#e4e2de",
+                      "outline": "#707974",
+                      "secondary-fixed": "#ffe088",
+                      "surface-variant": "#d9e3f6",
+                      "on-secondary-fixed-variant": "#574500",
+                      "on-secondary-fixed": "#241a00",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed": "#b0f0d6",
+                      "on-surface": "#121c2a",
+                      "surface-container": "#e6eeff",
+                      "surface-tint": "#2b6954",
+                      "surface-container-highest": "#d9e3f6",
+                      "on-primary-container": "#80bea6",
+                      "surface": "#f8f9ff",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed-variant": "#474744",
+                      "inverse-surface": "#27313f",
+                      "inverse-primary": "#95d3ba",
+                      "error": "#ba1a1a",
+                      "on-error-container": "#93000a",
+                      "on-primary": "#ffffff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "primary": "#003527",
+                      "on-tertiary-fixed": "#1b1c1a",
+                      "on-background": "#121c2a",
+                      "on-surface-variant": "#404944",
+                      "primary": "#003527",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed": "#002117",
+                      "secondary-fixed-dim": "#e9c349",
+                      "tertiary-fixed-dim": "#c8c6c3",
+                      "surface-bright": "#f8f9ff",
+                      "primary-fixed-dim": "#95d3ba"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "1rem",
+                      "xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "margin-desktop": "48px",
+                      "container-max": "1280px",
+                      "gutter": "24px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Amiri"],
+                      "headline-lg-mobile": ["Amiri"],
+                      "display-lg": ["Amiri"],
+                      "label-sm": ["IBM Plex Sans"],
+                      "body-md": ["Be Vietnam Pro"],
+                      "body-lg": ["Be Vietnam Pro"],
+                      "label-md": ["IBM Plex Sans"],
+                      "headline-lg": ["Amiri"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "60px", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+      </script>
 </head>
-<body class="font-body">
-
-<div class="geo-bg"></div>
-
-<!-- ===== NAV ===== -->
-<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-primary/10">
-<div class="flex items-center justify-between px-6 lg:px-12 py-4 max-w-7xl mx-auto">
-  <a href="/" class="flex items-center gap-2">
-    <span class="text-3xl text-primary font-arabic font-bold leading-none">۞</span>
-    <span class="text-2xl font-arabic text-primary font-bold">سِبْحَة</span>
-  </a>
-  <div class="hidden md:flex items-center gap-8">
-    <a href="/" class="text-primary border-b-2 border-primary pb-0.5 font-semibold">الرئيسية</a>
-    <a href="#features" class="text-on-surface-variant hover:text-primary transition-colors font-medium">المميزات</a>
-    <a href="#commands" class="text-on-surface-variant hover:text-primary transition-colors font-medium">الأوامر</a>
-    <a href="#dashboard" class="text-on-surface-variant hover:text-primary transition-colors font-medium">الإحصائيات</a>
-  </div>
-  <div class="flex items-center gap-3">
-    <a href="https://discord.com/api/oauth2/authorize?client_id=1511385148896182312&permissions=8&scope=bot" target="_blank" class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold hover:brightness-110 transition-all active:scale-[0.97] shadow-lg shadow-primary/20 flex items-center gap-2">
-      <span class="material-symbols-outlined !text-on-primary" style="font-size:1.25rem">add_circle</span>
-      أضف للبوت
-    </a>
-  </div>
+<body class="bg-background text-on-surface antialiased overflow-x-hidden">
+<!-- Background Mashrabiya Grain -->
+<div class="fixed inset-0 mashrabiya-overlay z-0 pointer-events-none opacity-5"></div>
+<!-- Background Floating SVG Elements -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="drifting-shape absolute top-[20%] right-[10%] opacity-10">
+<svg fill="none" height="120" viewBox="0 0 100 100" width="120" xmlns="http://www.w3.org/2000/svg">
+<path d="M50 0L61.2257 38.7743L100 50L61.2257 61.2257L50 100L38.7743 61.2257L0 50L38.7743 38.7743L50 0Z" fill="#003527"></path>
+</svg>
+</div>
+<div class="drifting-shape absolute bottom-[20%] left-[5%] opacity-10" style="animation-delay: -5s; animation-duration: 25s;">
+<svg fill="none" height="180" viewBox="0 0 100 100" width="180" xmlns="http://www.w3.org/2000/svg">
+<rect height="50" stroke="#735c00" stroke-width="2" transform="rotate(45 50 50)" width="50" x="25" y="25"></rect>
+<rect height="60" stroke="#735c00" stroke-width="1" transform="rotate(22.5 50 50)" width="60" x="20" y="20"></rect>
+</svg>
+</div>
+<div class="drifting-shape absolute top-[60%] right-[15%] opacity-10" style="animation-delay: -12s; animation-duration: 30s;">
+<svg fill="none" height="100" viewBox="0 0 100 100" width="100" xmlns="http://www.w3.org/2000/svg">
+<circle cx="50" cy="50" r="40" stroke="#003527" stroke-dasharray="4 4" stroke-width="1"></circle>
+</svg>
+</div>
+</div>
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full z-50 px-margin-desktop py-4 bg-surface/80 backdrop-blur-md shadow-sm shadow-primary/5">
+<div class="max-w-container-max mx-auto w-full grid grid-cols-3 items-center">
+<!-- LEFT SECTION: Add Bot Button -->
+<div class="flex justify-start"><div class="h-16 flex items-center"><span class="font-display-lg text-headline-lg text-primary font-bold">سبحة</span></div></div>
+<!-- CENTER SECTION: Navigation Links -->
+<div class="hidden md:flex items-center justify-center gap-8">
+<a class="text-primary border-b-2 border-secondary-fixed-dim pb-1 font-bold font-body-md text-body-md transition-all duration-300" href="#">الرئيسية</a>
+<a class="text-on-surface-variant hover:text-secondary pb-1 font-body-md text-body-md transition-colors duration-300" href="#features">الأوامر</a>
+<a class="text-on-surface-variant hover:text-secondary pb-1 font-body-md text-body-md transition-colors duration-300" href="#stats">الإحصائيات</a>
+<a class="text-on-surface-variant hover:text-secondary pb-1 font-body-md text-body-md transition-colors duration-300" href="#leaderboard">لوحة الصدارة</a>
+</div>
+<!-- RIGHT SECTION: Brand Logo -->
+<div class="flex justify-end"><button class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-label-md text-label-md transition-all duration-200 active:scale-95 shadow-lg shadow-primary/10 hover:bg-on-primary-fixed-variant hover:shadow-primary/30" onclick="window.open('https://discord.com/api/oauth2/authorize?client_id=1512162944757010644&permissions=8&scope=bot%20applications.commands','_blank')">أضف البوت</button></div>
 </div>
 </nav>
-
-<main class="relative z-10">
-
-<!-- ===== HERO ===== -->
-<section class="min-h-screen flex flex-col items-center justify-center text-center px-6 hero-glow relative overflow-hidden pt-24">
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.06] select-none animate-float">
-    <span class="text-[400px] text-primary inline-block">۞</span>
-  </div>
-  <div class="max-w-3xl relative z-10">
-    <h1 class="text-6xl md:text-7xl font-arabic font-bold gold-text mb-4 drop-shadow-2xl reveal">سِبْحَة</h1>
-    <p class="text-xl md:text-2xl text-on-surface-variant mb-6 reveal reveal-d1 font-medium">بوت إسلامي متكامل لديسكورد</p>
-    <div class="reveal reveal-d2 mb-10">
-      <p class="font-arabic text-2xl md:text-3xl text-primary/90 leading-[2.2]">﴿ فَاذْكُرُونِي أَذْكُرْكُمْ ﴾</p>
-      <p class="text-sm text-on-surface-variant/60 mt-1">سورة البقرة — ١٥٢</p>
-    </div>
-    <div class="reveal reveal-d3 flex flex-wrap justify-center gap-4">
-      <a href="https://discord.com/api/oauth2/authorize?client_id=1511385148896182312&permissions=8&scope=bot" target="_blank" class="bg-primary text-on-primary px-10 py-3.5 rounded-xl font-bold text-lg hover:scale-[1.03] transition-transform shadow-xl shadow-primary/25 flex items-center gap-3">
-        أضف للبوت
-        <span class="material-symbols-outlined !text-on-primary" style="font-size:1.5rem">add_circle</span>
-      </a>
-      <a href="#commands" class="border-2 border-primary text-primary px-10 py-3.5 rounded-xl font-bold text-lg hover:bg-primary/10 transition-all">
-        قائمة الأوامر
-      </a>
-    </div>
-  </div>
+<!-- Hero Section -->
+<section class="relative pt-40 pb-20 px-margin-desktop overflow-hidden min-h-screen flex flex-col items-center justify-center text-center z-10">
+<!-- Abstract Background Ornaments -->
+<div class="absolute -top-20 -right-20 w-96 h-96 bg-primary-fixed opacity-10 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-20 -left-20 w-96 h-96 bg-secondary-fixed opacity-10 rounded-full blur-3xl"></div>
+<div class="relative z-10 max-w-4xl">
+<h1 class="reveal font-display-lg text-display-lg text-primary mb-6 leading-tight active">
+            سبحة — رفيقك المسلم في عالم ديسكورد
+        </h1>
+<p class="reveal font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-2xl mx-auto leading-relaxed active" style="transition-delay: 100ms;">
+            تسع وحدات متكاملة تغطي احتياجاتك اليومية من القرآن الكريم، الأذكار، ومواقيت الصلاة، بأسلوب عصري وبسيط يحفظ هويتك في بيئتك الرقمية.
+        </p>
+<div class="reveal flex flex-row-reverse gap-4 justify-center active" style="transition-delay: 200ms;">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-headline-md text-headline-md shadow-xl shadow-primary/20 flex items-center gap-3 hover:shadow-2xl hover:scale-105 transition-all active:scale-95" onclick="window.open('https://discord.com/api/oauth2/authorize?client_id=1512162944757010644&permissions=8&scope=bot%20applications.commands','_blank')">
+                دعوة البوت
+                <span class="material-symbols-outlined">add_moderator</span>
+</button>
+<button class="border-2 border-primary text-primary px-8 py-4 rounded-xl font-headline-md text-headline-md hover:bg-primary/5 hover:scale-105 transition-all active:scale-95" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+                استكشف الأوامر
+            </button>
+</div>
+</div>
+<!-- Floating Decorative Element -->
+<div class="reveal mt-20 floating-shape active" style="transition-delay: 400ms;">
+<div class="w-16 h-16 border-2 border-secondary rotate-45 mx-auto rounded-lg flex items-center justify-center">
+<div class="w-10 h-10 border-2 border-primary rotate-45 rounded-sm"></div>
+</div>
+</div>
 </section>
-
-<!-- ===== STATS ===== -->
-<section class="reveal -mt-16 px-6 max-w-5xl mx-auto relative z-20">
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="statsGrid">
-    <div class="glass p-6 text-center hover:-translate-y-1 transition-transform">
-      <span class="material-symbols-outlined text-4xl mb-2">dns</span>
-      <div class="text-3xl font-bold text-primary count-up" data-target="0" id="statGuilds">-</div>
-      <div class="text-xs text-on-surface-variant/70 mt-1 font-semibold uppercase tracking-widest">السيرفرات</div>
-    </div>
-    <div class="glass p-6 text-center hover:-translate-y-1 transition-transform">
-      <span class="material-symbols-outlined text-4xl mb-2">group</span>
-      <div class="text-3xl font-bold text-primary count-up" data-target="0" id="statUsers">-</div>
-      <div class="text-xs text-on-surface-variant/70 mt-1 font-semibold uppercase tracking-widest">المستخدمين</div>
-    </div>
-    <div class="glass p-6 text-center hover:-translate-y-1 transition-transform">
-      <span class="material-symbols-outlined text-4xl mb-2">mosque</span>
-      <div class="text-3xl font-bold text-primary count-up" data-target="0" id="statPrayers">-</div>
-      <div class="text-xs text-on-surface-variant/70 mt-1 font-semibold uppercase tracking-widest">الصلوات المسجلة</div>
-    </div>
-    <div class="glass p-6 text-center hover:-translate-y-1 transition-transform">
-      <span class="material-symbols-outlined text-4xl mb-2">sports_esports</span>
-      <div class="text-3xl font-bold text-primary count-up" data-target="0" id="statGames">-</div>
-      <div class="text-xs text-on-surface-variant/70 mt-1 font-semibold uppercase tracking-widest">الألعاب</div>
-    </div>
-  </div>
+<!-- Features Bento Grid -->
+<section class="py-24 px-margin-desktop bg-surface-container-low relative z-10" id="features">
+<div class="max-w-container-max mx-auto">
+<div class="text-right mb-16 reveal active">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">وحدات متكاملة لخدمتك</h2>
+<div class="w-24 h-1 bg-secondary rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-gutter">
+<!-- Quran Card -->
+<div class="reveal md:col-span-2 md:row-span-1 glass-card p-8 rounded-xl flex flex-col justify-between active" style="transition-delay: 50ms;">
+<div>
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">القرآن الكريم</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">آيات مباركة، تفسير دقيق، بحث متقدم، راديو مباشر، وختمة جماعية.</p>
+<div class="flex flex-wrap gap-1.5">
+<span class="tag">آية</span><span class="tag">آيات</span><span class="tag">آية-يومية</span><span class="tag">بحث</span><span class="tag">تفسير</span><span class="tag">صفحة</span><span class="tag">راديو</span><span class="tag">ختمة</span>
+</div>
+</div>
+</div>
+<!-- Prayer Card -->
+<div class="reveal md:col-span-1 md:row-span-1 glass-card p-8 rounded-xl active" style="transition-delay: 150ms;">
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">schedule</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">مواقيت الصلاة</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">أوقات دقيقة، أذان تلقائي، اتجاه القبلة.</p>
+<div class="flex flex-wrap gap-1.5">
+<span class="tag">أوقات</span><span class="tag">قبلة</span><span class="tag">سجل</span><span class="tag">نقاطي</span><span class="tag">لوحة</span><span class="tag">إعداد-أذان</span>
+</div>
+</div>
+<!-- Azkar Card -->
+<div class="reveal md:col-span-1 md:row-span-2 bg-primary-container text-on-primary-container p-8 rounded-xl shadow-lg relative overflow-hidden bento-card-special transition-all hover:scale-[1.02] hover:-translate-y-2 active" style="transition-delay: 250ms;">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-4xl text-primary-fixed mb-4" style="font-variation-settings: 'FILL' 1;">stars</span>
+<h3 class="font-headline-md text-headline-md text-on-primary mb-4">الأذكار</h3>
+<p class="font-body-md text-body-md opacity-80 mb-4">أذكار الصباح والمساء، الدعاء اليومي، والمسبحة التفاعلية.</p>
+<div class="flex flex-wrap gap-1.5">
+<span class="tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8)">عرض صباح</span>
+<span class="tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8)">عرض مساء</span>
+<span class="tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8)">ذكر</span>
+<span class="tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8)">دعاء-اليوم</span>
+<span class="tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8)">مسبحة</span>
+<span class="tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8)">ضبط</span>
+</div>
+</div>
+<div class="absolute -bottom-10 -right-10 opacity-10">
+<span class="material-symbols-outlined text-[120px]">psychology_alt</span>
+</div>
+</div>
+<!-- Hadith Card -->
+<div class="reveal md:col-span-1 md:row-span-1 glass-card p-8 rounded-xl active" style="transition-delay: 100ms;">
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">الحديث</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">الأربعون النووية، بحث في الأحاديث، حديث اليوم.</p>
+<div class="flex flex-wrap gap-1.5">
+<span class="tag">اليوم</span><span class="tag">عشوائي</span><span class="tag">بحث</span><span class="tag">أحاديث</span><span class="tag">الأربعون-النووية</span>
+</div>
+</div>
+<!-- Fatwa Card -->
+<div class="reveal md:col-span-2 md:row-span-1 glass-card p-8 rounded-xl flex items-start gap-6 active" style="transition-delay: 200ms;">
+<span class="material-symbols-outlined text-5xl text-secondary" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">الفتوى</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">فتاوى دينية موثقة، أسئلة فقهية، وموسوعة مصطلحات شرعية.</p>
+<div class="flex flex-wrap gap-1.5">
+<span class="tag">اليوم</span><span class="tag">بحث</span><span class="tag">سؤال</span><span class="tag">مصطلح</span>
+</div>
+</div>
+</div>
+<!-- Zakat Card -->
+<div class="reveal md:col-span-1 md:row-span-1 glass-card p-8 rounded-xl border-r-4 border-secondary active" style="transition-delay: 300ms;">
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">payments</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">الزكاة</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">حاسبة دقيقة للزكاة، نصاب الذهب والفضة، زكاة الفطر.</p>
+<div class="flex flex-wrap gap-1.5">
+<span class="tag">مال</span><span class="tag">فطر</span><span class="tag">نصاب</span><span class="tag">فضل-الصدقة</span>
+</div>
+</div>
+<!-- History Card -->
+<div class="reveal md:col-span-1 md:row-span-1 glass-card p-8 rounded-xl active" style="transition-delay: 350ms;">
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">التاريخ</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">التاريخ الهجري، تحويل التواريخ، سيرة الصحابة والسيرة النبوية.</p>
+<div class="flex flex-wrap gap-1.5">
+<span class="tag">اليوم</span><span class="tag">هجري</span><span class="tag">تحويل</span><span class="tag">صحابي</span><span class="tag">سيرة</span>
+</div>
+</div>
+<!-- Games Card -->
+<div class="reveal md:col-span-1 md:row-span-1 glass-card p-8 rounded-xl active" style="transition-delay: 400ms;">
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">sports_esports</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">الألعاب</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">اختبارات دينية، مسابقات قرآن، ألغاز إسلامية، وسباق سرعة.</p>
+<div class="flex flex-wrap gap-1.5">
+<span class="tag">اختبار-ديني</span><span class="tag">أكمل-الآية</span><span class="tag">مسابقة-قرآن</span><span class="tag">من-أنا</span><span class="tag">ترتيب-السور</span><span class="tag">سباق-السرعة</span><span class="tag">نقاطي</span><span class="tag">لوحة-الشرف</span>
+</div>
+</div>
+<!-- Settings Card -->
+<div class="reveal md:col-span-1 md:row-span-1 glass-card p-8 rounded-xl active" style="transition-delay: 450ms;">
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">settings</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">الإعدادات</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">تخصيص البوت، لغة، تذكير، إنجازات، حالة البوت.</p>
+<div class="flex flex-wrap gap-1.5">
+<span class="tag">عرض</span><span class="tag">لغة</span><span class="tag">دور-ديني</span><span class="tag">تذكير-شخصي</span><span class="tag">إنجازاتي</span><span class="tag">حالة-البوت</span><span class="tag">بنق</span>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<!-- ===== FEATURES ===== -->
-<section class="py-24 px-6 max-w-7xl mx-auto" id="features">
-  <div class="text-center mb-16 reveal">
-    <h2 class="text-4xl font-arabic font-bold text-primary mb-4">مميزات سِبْحَة</h2>
-    <div class="h-1 w-20 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full"></div>
-  </div>
-  <div class="grid md:grid-cols-3 gap-6" id="featuresGrid"></div>
+<!-- Stats Section -->
+<section class="py-24 px-margin-desktop bg-white relative z-10" id="stats">
+<div class="max-w-container-max mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+<div class="reveal flex flex-col items-center active" style="transition-delay: 0ms;">
+<div class="mb-4 text-primary bg-primary/5 p-4 rounded-full transition-colors hover:bg-primary hover:text-white">
+<span class="material-symbols-outlined text-4xl">dns</span>
+</div>
+<div class="font-display-lg text-display-lg text-primary count-up" data-target="97" id="counter-servers">0</div>
+<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">الخوادم</div>
+</div>
+<div class="reveal flex flex-col items-center active" style="transition-delay: 100ms;">
+<div class="mb-4 text-secondary bg-secondary/5 p-4 rounded-full transition-colors hover:bg-secondary hover:text-white">
+<span class="material-symbols-outlined text-4xl">group</span>
+</div>
+<div class="font-display-lg text-display-lg text-primary count-up" data-target="150000" id="counter-users">0</div>
+<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">المستخدمون</div>
+</div>
+<div class="reveal flex flex-col items-center active" style="transition-delay: 200ms;">
+<div class="mb-4 text-primary bg-primary/5 p-4 rounded-full transition-colors hover:bg-primary hover:text-white">
+<span class="material-symbols-outlined text-4xl">prayer_times</span>
+</div>
+<div class="font-display-lg text-display-lg text-primary count-up" data-target="1000000" id="counter-prayers">0</div>
+<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">الصلوات المسجلة</div>
+</div>
+<div class="reveal flex flex-col items-center active" style="transition-delay: 300ms;">
+<div class="mb-4 text-secondary bg-secondary/5 p-4 rounded-full transition-colors hover:bg-secondary hover:text-white">
+<span class="material-symbols-outlined text-4xl">casino</span>
+</div>
+<div class="font-display-lg text-display-lg text-primary count-up" data-target="500000" id="counter-games">0</div>
+<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">جلسات اللعب</div>
+</div>
+</div>
 </section>
-
-<!-- ===== PRAYER TIMES ===== -->
-<section class="py-16 px-6 max-w-5xl mx-auto reveal" id="prayerSection">
-  <div class="text-center mb-10">
-    <h3 class="text-2xl font-arabic font-bold text-primary mb-2">🕌 مواقيت الصلاة اليوم</h3>
-    <p class="text-on-surface-variant/70" id="prayerLocation">مكة المكرمة</p>
-  </div>
-  <div class="flex flex-wrap md:flex-nowrap gap-4 justify-center" id="prayerGrid">
-    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
-      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
-      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
-    </div>
-    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
-      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
-      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
-    </div>
-    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
-      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
-      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
-    </div>
-    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
-      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
-      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
-    </div>
-    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
-      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
-      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
-    </div>
-    <div class="glass p-6 flex-1 min-w-[120px] text-center opacity-60">
-      <div class="skeleton-bg rounded h-4 w-16 mx-auto mb-3">&nbsp;</div>
-      <div class="skeleton-bg rounded h-6 w-20 mx-auto">&nbsp;</div>
-    </div>
-  </div>
+<!-- Leaderboard Section -->
+<section class="py-24 px-margin-desktop bg-surface-container-highest/30 relative z-10" id="leaderboard">
+<div class="max-w-3xl mx-auto">
+<div class="reveal text-center mb-16 active">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">لوحة الصدارة</h2>
+<p class="font-body-md text-body-md text-on-surface-variant italic">"وَفِي ذَلِكَ فَلْيَتَنَافَسِ الْمُتَنَافِسُونَ"</p>
+</div>
+<div class="reveal glass-card rounded-2xl overflow-hidden shadow-xl active" style="transition-delay: 200ms;">
+<div class="w-full" id="leaderboard-table">
+<table class="w-full text-right border-collapse">
+<thead class="bg-primary text-on-primary">
+<tr>
+<th class="py-4 px-8 font-label-md text-label-md">المركز</th>
+<th class="py-4 px-8 font-label-md text-label-md">المستخدم</th>
+<th class="py-4 px-8 font-label-md text-label-md">النقاط</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md" id="leaderboard-body">
+<tr><td colspan="3" class="py-10 text-center text-on-surface-variant">جاري تحميل البيانات...</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </section>
-
-<!-- ===== DASHBOARD ===== -->
-<section class="py-24 px-6 bg-surface-container-low/50" id="dashboard">
-  <div class="max-w-7xl mx-auto">
-    <div class="grid lg:grid-cols-12 gap-12 items-center">
-      <div class="lg:col-span-5 reveal">
-        <h2 class="text-3xl font-arabic font-bold text-primary mb-6">📊 لوحة التحكم</h2>
-        <p class="text-lg text-on-surface-variant/80 mb-8 leading-relaxed">إحصائيات حية من قاعدة بيانات البوت — راقب نشاط مجتمعك الإسلامي في سيرفرك.</p>
-        <ul class="space-y-4">
-          <li class="flex items-center gap-3 text-on-surface font-semibold">
-            <span class="material-symbols-outlined fill !text-primary">verified</span>
-            إحصائيات فورية
-          </li>
-          <li class="flex items-center gap-3 text-on-surface font-semibold">
-            <span class="material-symbols-outlined fill !text-primary">verified</span>
-            لوحة شرف ديناميكية
-          </li>
-          <li class="flex items-center gap-3 text-on-surface font-semibold">
-            <span class="material-symbols-outlined fill !text-primary">verified</span>
-            تتبع التقدم والشارات
-          </li>
-        </ul>
-      </div>
-      <div class="lg:col-span-7 glass p-6 reveal reveal-d2">
-        <div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
-          <h4 class="text-xl font-bold text-primary">🏆 المتصدرون</h4>
-          <div class="flex gap-1.5">
-            <span class="w-2.5 h-2.5 rounded-full bg-red-500/40"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/40"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-green-500/40"></span>
-          </div>
-        </div>
-        <div class="space-y-3" id="lbPreview">
-          <div class="flex items-center justify-between p-4 bg-white/[0.03] rounded-xl border border-primary/5">
-            <div class="flex items-center gap-4">
-              <div class="skeleton-bg w-10 h-10 rounded-full"></div>
-              <div>
-                <div class="skeleton-bg rounded h-4 w-24 mb-1"></div>
-                <div class="skeleton-bg rounded h-3 w-16"></div>
-              </div>
-            </div>
-            <div class="skeleton-bg rounded h-5 w-16"></div>
-          </div>
-          <div class="flex items-center justify-between p-4 bg-white/[0.03] rounded-xl border border-primary/5">
-            <div class="flex items-center gap-4">
-              <div class="skeleton-bg w-10 h-10 rounded-full"></div>
-              <div>
-                <div class="skeleton-bg rounded h-4 w-24 mb-1"></div>
-                <div class="skeleton-bg rounded h-3 w-16"></div>
-              </div>
-            </div>
-            <div class="skeleton-bg rounded h-5 w-16"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== COMMANDS ===== -->
-<section class="py-24 px-6 max-w-7xl mx-auto" id="commands">
-  <div class="text-center mb-16 reveal">
-    <h2 class="text-4xl font-arabic font-bold text-primary mb-4">📋 الأوامر</h2>
-    <p class="text-on-surface-variant/70">أكثر من ٦٠ أمراً — تسع فئات</p>
-    <div class="h-1 w-20 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full mt-4"></div>
-  </div>
-  <div class="glass overflow-hidden reveal" id="cmdsWrap">
-    <div class="p-8 text-center text-on-surface-variant/50">
-      <div class="inline-block w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mb-2"></div>
-      <div>جاري تحميل الأوامر...</div>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<!-- ===== FOOTER ===== -->
-<footer class="border-t border-primary/10 py-12 px-6 bg-surface-container-lowest relative z-10">
-  <div class="max-w-7xl mx-auto text-center reveal">
-    <div class="flex items-center justify-center gap-3 mb-6">
-      <span class="text-3xl text-primary font-arabic font-bold">۞</span>
-      <span class="text-2xl font-arabic text-primary font-bold">سِبْحَة</span>
-    </div>
-    <p class="font-arabic text-lg text-on-surface-variant/60 mb-6">﴿ فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ ﴾</p>
-    <div class="flex justify-center gap-8 mb-8 flex-wrap">
-      <a href="#features" class="text-on-surface-variant/60 hover:text-primary transition-colors text-sm">المميزات</a>
-      <a href="#commands" class="text-on-surface-variant/60 hover:text-primary transition-colors text-sm">الأوامر</a>
-      <a href="#dashboard" class="text-on-surface-variant/60 hover:text-primary transition-colors text-sm">لوحة التحكم</a>
-      <a href="https://discord.com/api/oauth2/authorize?client_id=1511385148896182312&permissions=8&scope=bot" target="_blank" class="text-on-surface-variant/60 hover:text-primary transition-colors text-sm">دعوة البوت</a>
-    </div>
-    <div class="text-xs text-on-surface-variant/40 leading-relaxed">
-      <span class="text-primary/60">اللهم اجعله صدقة جارية</span> لي ولوالدي ولجميع المسلمين<br>
-      سِبْحَة v2.0.0 — سبحان الله وبحمده — سبحان الله العظيم
-    </div>
-  </div>
+<!-- Footer -->
+<footer class="w-full py-16 px-margin-desktop flex flex-col items-center gap-unit bg-surface-container-low border-t border-outline-variant/30 relative overflow-hidden z-10">
+<div class="relative z-10 flex flex-col items-center text-center gap-8">
+<span class="text-headline-md font-headline-md text-primary">سبحة</span>
+<nav class="flex flex-row-reverse gap-8 flex-wrap justify-center">
+<a class="text-on-surface-variant hover:text-secondary font-label-md text-label-md transition-colors" href="#">الخصوصية</a>
+<a class="text-on-surface-variant hover:text-secondary font-label-md text-label-md transition-colors" href="#">الشروط</a>
+<a class="text-on-surface-variant hover:text-secondary font-label-md text-label-md transition-colors" href="#">الدعم الفني</a>
+</nav>
+<div class="py-6 border-y border-outline-variant/20 max-w-lg">
+<p class="font-headline-md text-headline-md text-primary italic leading-relaxed">
+                "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ"
+            </p>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-60">
+            سبحة - جميع الحقوق محفوظة © ٢٠٢٦
+        </p>
+</div>
 </footer>
-
 <script>
-// ===== Animations =====
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.animationPlayState = 'running';
-      observer.unobserve(e.target);
+    // Reveal Observer for entrance animations
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Stats Counter Observer
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counters = entry.target.querySelectorAll('.count-up');
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    animateValue(counter.id, 0, target, 2500);
+                });
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.getElementById('stats');
+    if (statsSection) statsObserver.observe(statsSection);
+
+    function animateValue(id, start, end, duration) {
+        const obj = document.getElementById(id);
+        if (!obj) return;
+        const range = end - start;
+        const startTime = new Date().getTime();
+        
+        function run() {
+            const now = new Date().getTime();
+            const progress = Math.min((now - startTime) / duration, 1);
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            const value = Math.round(start + (easeProgress * range));
+            
+            if (end >= 1000000) {
+                obj.innerHTML = (value / 1000000).toFixed(1) + "M+";
+            } else if (end >= 1000) {
+                obj.innerHTML = (value / 1000).toFixed(0) + "K+";
+            } else {
+                obj.innerHTML = value + "+";
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(run);
+            }
+        }
+        requestAnimationFrame(run);
     }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => {
-  el.style.animationPlayState = 'paused';
-  observer.observe(el);
-});
 
-// ===== Stats =====
-async function loadStats() {
-  try {
-    const d = await fetch('/api/stats').then(r => r.json());
-    if (!d) return;
-    const ids = ['statGuilds','statUsers','statPrayers','statGames'];
-    const vals = [d.guilds||0, d.users||0, d.prayers||0, d.games||0];
-    ids.forEach((id,i) => {
-      const el = document.getElementById(id);
-      if (el) animateCount(el, vals[i]);
+    // Fetch leaderboard from API
+    fetch('/api/leaderboard')
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(data => {
+            const tbody = document.getElementById('leaderboard-body');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="py-10 text-center text-on-surface-variant">لا توجد بيانات بعد</td></tr>';
+                return;
+            }
+            const medals = ['🥇', '🥈', '🥉'];
+            tbody.innerHTML = data.slice(0, 10).map((u, i) => {
+                const initial = u.id?.charAt(0) || '?';
+                const isTop3 = i < 3;
+                return `<tr class="border-b border-outline-variant/30 hover:bg-white/50 transition-colors">
+                    <td class="py-5 px-8 font-bold ${isTop3 ? 'text-secondary' : 'text-on-surface-variant'}">${medals[i] || '#' + (i + 1)}</td>
+                    <td class="py-5 px-8 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full ${isTop3 ? 'bg-secondary-container text-on-secondary-container' : 'bg-surface-container text-on-surface-variant'} flex items-center justify-center font-bold">${initial}</div>
+                        <span>${u.id}</span>
+                    </td>
+                    <td class="py-5 px-8 font-bold">${(u.points || 0).toLocaleString()}</td>
+                </tr>`;
+            }).join('');
+        })
+        .catch(() => {
+            const tbody = document.getElementById('leaderboard-body');
+            tbody.innerHTML = '<tr><td colspan="3" class="py-10 text-center text-on-surface-variant">تعذر تحميل البيانات</td></tr>';
+        });
+
+    // Fetch real stats from API
+    fetch('/api/stats')
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(data => {
+            if (data.guilds !== undefined) document.getElementById('counter-servers').setAttribute('data-target', data.guilds);
+            if (data.users !== undefined) document.getElementById('counter-users').setAttribute('data-target', data.users);
+            if (data.prayers !== undefined) document.getElementById('counter-prayers').setAttribute('data-target', data.prayers);
+            if (data.games !== undefined) document.getElementById('counter-games').setAttribute('data-target', data.games);
+        })
+        .catch(() => {});
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     });
-  } catch {}
-}
-
-function animateCount(el, target) {
-  if (target === 0) { el.textContent = '0'; return; }
-  const dur = 1500;
-  const step = 20;
-  const inc = target / (dur / step);
-  let cur = 0;
-  const t = setInterval(() => {
-    cur += inc;
-    if (cur >= target) { el.textContent = target.toLocaleString(); clearInterval(t); }
-    else el.textContent = Math.floor(cur).toLocaleString();
-  }, step);
-}
-
-// ===== Features =====
-const features = [
-  {icon:'menu_book',t:'القرآن الكريم',d:'آيات، تفسير، صفحات المصحف، بحث، راديو صوتي، ختمة جماعية',tags:['آية','تفسير','بحث','راديو','ختمة']},
-  {icon:'self_improvement',t:'الأذكار',d:'أذكار الصباح والمساء، أدعية، مسبحة تفاعلية رقمية',tags:['أذكار','دعاء','مسبحة']},
-  {icon:'auto_stories',t:'الحديث النبوي',d:'الأربعون النووية، أحاديث من الكتب الستة، بحث بالكلمة والموضوع',tags:['حديث','بحث','الأربعون']},
-  {icon:'balance',t:'الفتوى',d:'فتاوى في جميع أبواب الفقه، أسئلة دينية، مصطلحات شرعية',tags:['فتوى','سؤال','مصطلح']},
-  {icon:'mosque',t:'الصلاة',d:'مواقيت الصلاة لأي مدينة، قبلة، تسجيل صلاة، أذان تلقائي',tags:['مواقيت','قبلة','سجل','أذان']},
-  {icon:'diamond',t:'الزكاة',d:'حاسبة الزكاة، نصاب الذهب والفضة، زكاة الفطر',tags:['مال','فطر','نصاب']},
-  {icon:'history',t:'التاريخ الإسلامي',d:'أحداث، تحويل التاريخ، سير الصحابة، السيرة النبوية',tags:['أحداث','تحويل','صحابي','سيرة']},
-  {icon:'stadia_controller',t:'الألعاب',d:'اختبار ديني، أكمل الآية، مسابقة قرآن، من أنا، ترتيب السور',tags:['اختبار','مسابقة','سباق']},
-  {icon:'emoji_events',t:'الإنجازات',d:'شارات، لوحة الشرف، تحديات أسبوعية، ورد يومي',tags:['شارات','تحديات','ورد']},
-];
-document.getElementById('featuresGrid').innerHTML = features.map(f => `
-  <div class="glass p-8 border-t-4 border-t-primary hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 reveal">
-    <div class="w-14 h-14 bg-primary/15 rounded-2xl flex items-center justify-center mb-6">
-      <span class="material-symbols-outlined text-3xl">${f.icon}</span>
-    </div>
-    <h4 class="text-xl font-bold text-on-surface mb-2">${f.t}</h4>
-    <p class="text-on-surface-variant/80 leading-relaxed text-sm">${f.d}</p>
-    <div class="flex flex-wrap gap-1.5 mt-4">
-      ${f.tags.map(t => '<span class="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/10">'+t+'</span>').join('')}
-    </div>
-  </div>`).join('');
-
-// ===== Prayer Times =====
-async function loadPrayer() {
-  try {
-    const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Mecca&country=Saudi%20Arabia&method=5');
-    const data = await res.json();
-    if (!data?.data) throw Error();
-    const t = data.data.timings;
-    const date = data.data.date?.readable || '';
-    document.getElementById('prayerLocation').textContent = '🏙️ مكة المكرمة — ' + date;
-    
-    const prayers = [
-      {name:'الفجر',key:'Fajr'},{name:'الشروق',key:'Sunrise'},
-      {name:'الظهر',key:'Dhuhr'},{name:'العصر',key:'Asr'},
-      {name:'المغرب',key:'Maghrib'},{name:'العشاء',key:'Isha'},
-    ];
-    const now = new Date();
-    const curMin = now.getHours() * 60 + now.getMinutes();
-
-    document.getElementById('prayerGrid').innerHTML = prayers.map((p,i) => {
-      const [h,m] = t[p.key].split(':').map(Number);
-      const mins = h * 60 + m;
-      const isNext = (i === 0 && curMin < mins) || (i > 0 && curMin >= (() => { const [ph,pm] = t[prayers[i-1].key].split(':').map(Number); return ph*60+pm; })() && curMin < mins);
-      return `<div class="glass ${isNext ? 'glass-active scale-[1.02] z-10' : 'opacity-60 hover:opacity-100'} p-6 flex-1 min-w-[120px] text-center transition-all relative">
-        ${isNext ? '<div class="absolute -top-0.5 right-0 bg-primary text-on-primary text-[10px] px-2.5 py-1 rounded-bl-xl font-bold">الآن</div>' : ''}
-        <p class="text-sm text-on-surface-variant mb-2 font-semibold">${p.name}</p>
-        <p class="text-2xl font-bold ${isNext ? 'text-primary' : 'text-on-surface'}">${t[p.key]}</p>
-      </div>`;
-    }).join('');
-  } catch {}
-}
-loadPrayer();
-
-// ===== Commands =====
-const fallbackCmds = [
-  {c:'قرآن',subs:[{n:'آية',d:'عرض آية قرآنية',o:['السورة','الآية']},{n:'آيات',d:'عرض مجموعة آيات',o:['السورة','من','إلى']},{n:'آية-يومية',d:'آية عشوائية',o:[]},{n:'بحث',d:'البحث في القرآن',o:['كلمة']},{n:'تفسير',d:'تفسير آية',o:['السورة','الآية']},{n:'صفحة',d:'عرض صفحة من المصحف',o:['رقم']},{n:'راديو',d:'تشغيل الراديو',o:['القارئ','حالة']},{n:'ختمة',d:'الختمة الجماعية',o:['تسجيل']}]},
-  {c:'صلاة',subs:[{n:'أوقات',d:'أوقات الصلاة',o:['city']},{n:'قبلة',d:'اتجاه القبلة',o:['city','country']},{n:'سجل',d:'تسجيل صلاة',o:['prayer']},{n:'نقاطي',d:'نقاط الصلاة',o:[]},{n:'لوحة',d:'لوحة المصلين',o:[]},{n:'إعداد-أذان',d:'إعداد الأذان',o:['channel','city','country']}]},
-  {c:'حديث',subs:[{n:'اليوم',d:'حديث اليوم',o:[]},{n:'عشوائي',d:'حديث عشوائي',o:['الكتاب']},{n:'بحث',d:'بحث في الأحاديث',o:['كلمة']},{n:'أحاديث',d:'أحاديث بموضوع',o:['الموضوع']},{n:'الأربعون-النووية',d:'الأربعون النووية',o:['الرقم']}]},
-  {c:'أذكار',subs:[{n:'أذكار',d:'عرض الأذكار',o:[]},{n:'ذكر',d:'اذكر الله',o:['النوع']},{n:'دعاء-اليوم',d:'دعاء اليوم',o:[]},{n:'مسبحة',d:'مسبحة تفاعلية',o:[]},{n:'ضبط',d:'إعدادات الأذكار',o:['الروم','وقت-الصباح','وقت-المساء','رول-التنبيه']}]},
-  {c:'فتوى',subs:[{n:'اليوم',d:'فتوى اليوم',o:[]},{n:'بحث',d:'بحث في الفتاوى',o:['موضوع']},{n:'سؤال',d:'سؤال ديني',o:[]},{n:'مصطلح',d:'مصطلح شرعي',o:['الكلمة']}]},
-  {c:'زكاة',subs:[{n:'مال',d:'حساب الزكاة',o:['المبلغ','العملة','عملة-أخرى']},{n:'فطر',d:'زكاة الفطر',o:[]},{n:'نصاب',d:'نصاب الذهب والفضة',o:[]},{n:'فضل-الصدقة',d:'فضل الصدقة',o:[]}]},
-  {c:'لعبة',subs:[{n:'اختبار-ديني',d:'اختبار ديني',o:['المادة']},{n:'أكمل-الآية',d:'أكمل الآية',o:[]},{n:'مسابقة-قرآن',d:'مسابقة قرآنية',o:['المستوى']},{n:'من-أنا',d:'خمن الشخصية',o:[]},{n:'ترتيب-السور',d:'ترتيب السور',o:[]},{n:'سباق-السرعة',d:'سباق السرعة',o:[]},{n:'نقاطي',d:'نقاطي',o:[]},{n:'لوحة-الشرف',d:'لوحة الشرف',o:[]}]},
-  {c:'تاريخ',subs:[{n:'اليوم',d:'حدث في مثل هذا اليوم',o:[]},{n:'هجري',d:'التاريخ الهجري',o:[]},{n:'تحويل',d:'تحويل التاريخ',o:['اليوم','الشهر','السنة','إلى']},{n:'صحابي',d:'سيرة صحابي',o:['الاسم']},{n:'سيرة',d:'السيرة النبوية',o:['الموضوع']}]},
-  {c:'إعدادات',subs:[{n:'عرض',d:'لوحة الإعدادات',o:[]},{n:'لغة',d:'تغيير اللغة',o:['اللغة']},{n:'دور-ديني',d:'رول ديني',o:['الدور','الرول']},{n:'إعادة-ضبط',d:'إعادة ضبط',o:[]},{n:'تذكير-شخصي',d:'تذكير',o:['النوع','الوقت','العنوان']},{n:'تحدي-الأسبوع',d:'التحدي الأسبوعي',o:['النوع']},{n:'ورد-اليوم',d:'ورد يومي',o:[]},{n:'إنجازاتي',d:'الشارات',o:[]},{n:'إحصائيات',d:'إحصائيات السيرفر',o:[]},{n:'حالة-البوت',d:'حالة البوت',o:[]},{n:'بنق',d:'اختبار',o:[]}]},
-];
-
-function renderCmds(groups) {
-  const wrap = document.getElementById('cmdsWrap');
-  let h = '<table class="w-full text-right border-collapse"><thead><tr class="bg-primary/5"><th class="p-5 text-primary border-b border-primary/10 font-bold text-lg w-[35%]">الأمر</th><th class="p-5 text-primary border-b border-primary/10 font-bold text-lg">الوصف</th></tr></thead><tbody class="divide-y divide-primary/[0.04]">';
-  groups.forEach(g => {
-    h += `<tr class="bg-primary/[0.02]"><td colspan="2" class="p-3 pr-6 font-arabic text-lg text-primary font-bold border-b border-primary/5">/${g.c}</td></tr>`;
-    g.subs.forEach(s => {
-      const opt = s.o.length ? ' <span class="text-on-surface-variant/40 text-xs">' + s.o.map(x => '['+x+']').join(' ') + '</span>' : '';
-      h += `<tr class="hover:bg-white/[0.02] transition-colors"><td class="p-3 pr-10"><span class="font-mono text-primary text-sm font-bold">${s.n}</span>${opt}</td><td class="p-3 text-on-surface-variant/80 text-sm">${s.d}</td></tr>`;
-    });
-  });
-  h += '</tbody></table>';
-  wrap.innerHTML = h;
-}
-
-fetch('/api/commands').then(r => r.ok ? r.json() : Promise.reject())
-  .then(d => { if (d && d.length) renderCmds(d); else renderCmds(fallbackCmds); })
-  .catch(() => renderCmds(fallbackCmds));
-
-// ===== Leaderboard =====
-fetch('/api/leaderboard').then(r => r.ok ? r.json() : Promise.reject()).then(lb => {
-  if (!lb || !lb.length) {
-    document.getElementById('lbPreview').innerHTML = '<div class="p-6 text-center text-on-surface-variant/50">لا توجد بيانات بعد</div>';
-    return;
-  }
-  const medals = ['🥇','🥈','🥉'];
-  document.getElementById('lbPreview').innerHTML = lb.slice(0,5).map((u,i) => `
-    <div class="flex items-center justify-between p-4 bg-white/[0.03] rounded-xl border border-primary/5 hover:border-primary/20 transition-all">
-      <div class="flex items-center gap-4">
-        <span class="text-xl">${medals[i] || '#'+(i+1)}</span>
-        <div>
-          <div class="font-bold text-on-surface">${u.id}</div>
-          <div class="text-xs text-primary/70">${u.level || 'طالب علم'}</div>
-        </div>
-      </div>
-      <div class="text-primary font-bold text-lg">${u.points.toLocaleString()}</div>
-    </div>`).join('');
-}).catch(()=>{});
-
-// ===== Count-up =====
-const countObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const el = e.target;
-      const val = parseInt(el.textContent.replace(/[^0-9]/g,'')) || 0;
-      const target = parseInt(el.getAttribute('data-target')) || val;
-      animateCount(el, target);
-      countObs.unobserve(el);
-    }
-  });
-}, { threshold: 0.3 });
-document.querySelectorAll('.count-up').forEach(el => countObs.observe(el));
-
-// ===== Init =====
-loadStats();
 </script>
-</body>
-</html>
+
+</body></html>
